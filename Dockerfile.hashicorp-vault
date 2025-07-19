@@ -1,0 +1,2 @@
+FROM hashicorp/vault
+COPY build/hashicorp/vault/bin/vault /bin/vault
