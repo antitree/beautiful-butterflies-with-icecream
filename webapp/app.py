@@ -1,6 +1,7 @@
 import os
 import re
 from flask import Flask, render_template, send_from_directory, abort
+from charset_normalizer import from_bytes
 from pathlib import Path
 from datetime import datetime
 
@@ -8,6 +9,20 @@ app = Flask(__name__)
 
 LOG_ROOT = Path(os.environ.get('LOG_ROOT', 'logs')).resolve()
 FILE_RE = re.compile(r"^[0-9]{8}\.out$")
+
+
+def read_file_validated(path: Path) -> str:
+    """Return text from path or hex representation if not valid text."""
+    data = path.read_bytes()
+    if not data:
+        return ""
+    try:
+        best = from_bytes(data).best()
+        if best and best.encoding:
+            return best.str()
+    except Exception:
+        pass
+    return ' '.join(f'{b:02x}' for b in data)
 
 
 def find_log_dirs():
@@ -53,7 +68,7 @@ def view_logs(dir_key):
     contents = []
     for f in files:
         contents.append(f"--- {f.name} ---\n")
-        contents.append(f.read_text())
+        contents.append(read_file_validated(f))
         contents.append('\n')
     return render_template('logs.html', dir_key=dir_key, log="".join(contents))
 
