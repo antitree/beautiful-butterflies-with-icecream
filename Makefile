@@ -3,13 +3,14 @@ BUILD_DIR := build
 
 .DEFAULT_GOAL := help
 
-.PHONY: help patch/% image/%
+.PHONY: help patch/% image/% reset
 help:
 	@echo "Usage:"
 	@echo "  make patch/<name>   - Clone, patch, and build the given repo"
 	@echo "  make image/<name>   - Build docker image using patched binary"
+	@echo "  make reset         - Reset all repos in the build directory"
 	@echo ""
-	@echo "  Example: make patch/hashicorp-vault"
+        @echo "  Example: make patch/hashicorp-vault"
 
 # Pattern rule: "patch/NAME"
 patch/%:
@@ -31,6 +32,19 @@ image/%: patch/%
 	echo "🔨 Building docker image for $$repo" ; \
 	docker pull $$repo:latest >/dev/null ; \
 	echo "FROM $$repo:latest" > $$dockerfile ; \
-	echo "COPY $$src/bin/$$bin /usr/local/bin/$$bin" >> $$dockerfile ; \
-	docker build -f $$dockerfile -t $$name-patched $$src
+        echo "COPY $$src/bin/$$bin /usr/local/bin/$$bin" >> $$dockerfile ; \
+        docker build -f $$dockerfile -t $$name-patched $$src
+
+# Reset repos in build directory
+reset:
+	@if [ -d $(BUILD_DIR) ]; then \
+	for repo in $(BUILD_DIR)/*/*; do \
+	if [ -d $$repo/.git ]; then \
+	echo "🔄 Resetting $$repo"; \
+	git -C $$repo reset --hard >/dev/null; \
+	fi; \
+	done; \
+	else \
+	echo "No build directory found"; \
+	fi
 
