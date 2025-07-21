@@ -16,3 +16,15 @@ Example for HashiCorp Vault:
 make patch/hashicorp-vault
 make image/hashicorp-vault
 ```
+## Log Dashboard
+
+A simple Flask web application is included to view `.out` log files under the `logs/` directory. It aggregates numbered log files per folder and provides a timeline view.
+
+### Running
+
+```bash
+pip install -r requirements.txt
+python webapp/app.py
+```
+
+Then open `http://localhost:5000` in your browser.
