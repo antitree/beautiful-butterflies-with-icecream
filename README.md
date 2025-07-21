@@ -20,6 +20,10 @@ make image/hashicorp-vault
 
 A simple Flask web application is included to view `.out` log files under the `logs/` directory. It aggregates numbered log files per folder and provides a timeline view.
 
+Folder names are normalized to uppercase so directories such as `at`, `aT` and
+`AT` are consolidated under `AT`. If duplicate file names exist across these
+folders their contents are shown sequentially.
+
 Binary content within log files is detected using `charset-normalizer`. Any non-text data is displayed in a hexdump style format for safety.
 
 
