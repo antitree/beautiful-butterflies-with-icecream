@@ -23,7 +23,7 @@ A simple Flask web application is included to view `.out` log files under the `l
 Binary content within log files is detected using `charset-normalizer`. Any non-text data is displayed in a hexdump style format for safety.
 
 
-### Running
+### Running Manually
 
 ```bash
 pip install -r requirements.txt
@@ -31,3 +31,17 @@ python webapp/app.py
 ```
 
 Then open `http://localhost:5000` in your browser.
+
+### Installing as a Service
+
+Both the Exodus DNS server and the log dashboard can be managed by
+`systemd`. Each directory contains an `install.sh` script that sets up
+the service:
+
+```bash
+sudo ./exodus/install.sh
+sudo ./webapp/install.sh
+```
+
+After running these scripts the `exodus.service` and `webapp.service`
+units will be installed and started automatically.
