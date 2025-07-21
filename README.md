@@ -22,6 +22,7 @@ A simple Flask web application is included to view `.out` log files under the `l
 
 Binary content within log files is detected using `charset-normalizer`. Any non-text data is shown as hexadecimal for safety.
 
+
 ### Running
 
 ```bash
