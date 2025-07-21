@@ -37,22 +37,37 @@ def read_file_validated(path: Path) -> str:
 
 
 def find_log_dirs():
+    """Return mapping of normalized directory keys to lists of log Paths."""
     log_dirs = {}
     for path in LOG_ROOT.rglob('*'):
         if path.is_file() and FILE_RE.match(path.name):
-            rel_dir = path.parent.relative_to(LOG_ROOT)
-            log_dirs.setdefault(rel_dir.as_posix(), []).append(path)
+            rel_dir = path.parent.relative_to(LOG_ROOT).as_posix()
+            key = rel_dir.upper()
+            log_dirs.setdefault(key, []).append(path)
     for files in log_dirs.values():
         files.sort()
     return log_dirs
 
 
 def collect_logs(dir_key):
-    directory = LOG_ROOT / dir_key
-    if not directory.exists():
+    """Collect all .out files for a normalized directory key."""
+    key = dir_key.upper()
+    matches = []
+    for path in LOG_ROOT.rglob('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].out'):
+        rel_dir = path.parent.relative_to(LOG_ROOT).as_posix().upper()
+        if rel_dir == key:
+            matches.append(path)
+    if not matches:
         return None
-    files = sorted([p for p in directory.glob('[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9].out')])
-    return files
+
+    groups = {}
+    for p in matches:
+        groups.setdefault(p.name, []).append(p)
+
+    for g in groups.values():
+        g.sort()
+
+    return {name: paths for name, paths in sorted(groups.items())}
 
 
 @app.route('/')
@@ -73,15 +88,17 @@ def index():
 
 @app.route('/logs/<path:dir_key>')
 def view_logs(dir_key):
-    files = collect_logs(dir_key)
-    if files is None:
+    grouped = collect_logs(dir_key)
+    if grouped is None:
         abort(404)
     contents = []
-    for f in files:
-        contents.append(f"--- {f.name} ---\n")
-        contents.append(read_file_validated(f))
-        contents.append('\n')
-    return render_template('logs.html', dir_key=dir_key, log="".join(contents))
+    for name, paths in grouped.items():
+        for idx, f in enumerate(paths, 1):
+            header = f"--- {name}" if len(paths) == 1 else f"--- {name} #{idx} ({f.parent.name})"
+            contents.append(f"{header}---\n")
+            contents.append(read_file_validated(f))
+            contents.append('\n')
+    return render_template('logs.html', dir_key=dir_key.upper(), log="".join(contents))
 
 
 if __name__ == '__main__':
