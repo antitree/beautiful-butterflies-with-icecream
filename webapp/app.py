@@ -11,8 +11,19 @@ LOG_ROOT = Path(os.environ.get('LOG_ROOT', 'logs')).resolve()
 FILE_RE = re.compile(r"^[0-9]{8}\.out$")
 
 
+def hexdump(data: bytes) -> str:
+    """Return a hexdump style string similar to `xxd -C`."""
+    lines = []
+    for i in range(0, len(data), 16):
+        chunk = data[i:i + 16]
+        hex_bytes = ' '.join(f"{b:02x}" for b in chunk)
+        ascii_repr = ''.join(chr(b) if 32 <= b < 127 else '.' for b in chunk)
+        lines.append(f"{i:08x}  {hex_bytes:<47}  |{ascii_repr}|")
+    return "\n".join(lines)
+
+
 def read_file_validated(path: Path) -> str:
-    """Return text from path or hex representation if not valid text."""
+    """Return text from path or a hexdump if not valid text."""
     data = path.read_bytes()
     if not data:
         return ""
@@ -22,7 +33,7 @@ def read_file_validated(path: Path) -> str:
             return best.str()
     except Exception:
         pass
-    return ' '.join(f'{b:02x}' for b in data)
+    return hexdump(data)
 
 
 def find_log_dirs():
