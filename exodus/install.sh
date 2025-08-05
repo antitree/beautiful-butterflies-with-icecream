@@ -7,29 +7,32 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-# -------- Install Go --------
-GO_VERSION=1.22.4
-GO_TARBALL=go${GO_VERSION}.linux-amd64.tar.gz
-GO_URL=https://go.dev/dl/${GO_TARBALL}
+install_dir=/opt/exodus/
 
-echo "📦 Installing Go ${GO_VERSION}..."
-curl -LO ${GO_URL}
-rm -rf /usr/local/go
-tar -C /usr/local -xzf ${GO_TARBALL}
-rm ${GO_TARBALL}
+# -------- Install Go --------
+#GO_VERSION=1.22.4
+#GO_TARBALL=go${GO_VERSION}.linux-amd64.tar.gz
+#GO_URL=https://go.dev/dl/${GO_TARBALL}
+
+#echo "📦 Installing Go ${GO_VERSION}..."
+#curl -LO ${GO_URL}
+#rm -rf /usr/local/go
+#tar -C /usr/local -xzf ${GO_TARBALL}
+#rm ${GO_TARBALL}
 
 # Setup Go environment
-export PATH=$PATH:/usr/local/go/bin
-echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile
+#export PATH=$PATH:/usr/local/go/bin
+#echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile
 
 # -------- Install dependencies --------
-apt-get update
-apt-get install -y git make
+#apt-get update
+#apt-get install -y git make
 
 # -------- Clone and build ExodusDNS --------
-git clone https://github.com/cpl/exodus.git /opt/exodus
-cd /opt/exodus
-make
+git clone https://github.com/cpl/exodus.git /tmp/exodus
+rsync -a /tmp/exodus $install_dir
+cd $install_dir
+make build
 
 # Install the server binary
 install -m 0755 out/exodus-server /usr/local/bin/
@@ -42,9 +45,9 @@ After=network.target
 
 [Service]
 ExecStart=/usr/local/bin/exodus-server \
-  --listen 0.0.0.0:53/udp
+  -port 53 -data $install_dir/data
 Restart=on-failure
-User=nobody
+User=root
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 NoNewPrivileges=yes
@@ -58,6 +61,8 @@ systemctl daemon-reexec
 systemctl daemon-reload
 systemctl enable exodus
 systemctl start exodus
+
+rm -rf /tmp/exodus
 
 echo "✅ Exodus server installed and running on UDP port 53"
 

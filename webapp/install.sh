@@ -10,15 +10,16 @@ fi
 # -------- Install Python and dependencies --------
 apt-get update
 apt-get install -y python3 python3-pip
-pip3 install --upgrade pip
-pip3 install -r "$(dirname "$0")/../requirements.txt"
+pip3 install --upgrade pip --break-system-packages
+pip3 install -r "$(dirname "$0")/../requirements.txt" --break-system-packages
 
 # -------- Copy webapp files --------
-install_dir=/opt/webapp
+install_dir=/opt/exodus
 mkdir -p "$install_dir"
 cp -r "$(dirname "$0")"/*.py "$install_dir"/
 mkdir -p "$install_dir/templates"
 cp -r "$(dirname "$0")"/templates/* "$install_dir/templates/"
+mkdir -p "$install_dir/data"
 
 # -------- Create systemd service --------
 cat <<SERVICE > /etc/systemd/system/webapp.service
@@ -31,7 +32,7 @@ WorkingDirectory=$install_dir
 ExecStart=/usr/bin/python3 $install_dir/app.py
 Restart=on-failure
 User=nobody
-Environment=LOG_ROOT=$install_dir/logs
+Environment=LOG_ROOT=$install_dir/data
 NoNewPrivileges=yes
 
 [Install]
